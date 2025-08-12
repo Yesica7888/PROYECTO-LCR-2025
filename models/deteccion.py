@@ -18,7 +18,7 @@ def insertDeteccion  (fecha,color_hex, particulas,claridad,flujo,hora):
         cursor.execute(query,(fecha,color_hex, particulas,claridad,flujo,hora))
         #retorna el id de la deteccion acabada de agregar, pero podria no retornar nada si quiero
         # quiero controlar o ver que guarda entonces recupero una sola fila del resultado de la consulta
-        id_deteccion= cursor.fetchone[0]
+        id_deteccion= cursor.fetchone()[0]
         conn.commit()
         cursor.close() #permite cerrar el cursor que es el que permite scripts SQL 
         conn.close()
