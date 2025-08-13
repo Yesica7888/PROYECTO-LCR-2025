@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
-from models.deteccion import insertDeteccion # funciones en el archivo deteccion en el modelo del proyecto
+from models.deteccion import insertDeteccion  # funciones en el archivo deteccion en el modelo del proyecto
+from models.diagnostico import insertDiagnostico
 from datetime import datetime # para usar la fecha 
 
 main= Blueprint('main', __name__)
@@ -16,7 +17,7 @@ main= Blueprint('main', __name__)
 #    claridad= ""
 #    flujo = "fluido"    
 
-@main.route('/simular')
+@main.route('/simularDeteccion')
 def simularDeteccion():     
     #hora = datetime.now()   
     #fecha = hora.date()     
@@ -30,5 +31,15 @@ def simularDeteccion():
     flujo = True
 
     resultado= insertDeteccion (fecha, color_hex,particulas,claridad,flujo,hora)
+   #return resultado
+    return render_template ("index.html", resultado=resultado)
+
+@main.route('/simularDiagnostico')
+def simularDiagnostico():     
+    
+    diagnostico = "Hemorragia antigua"
+    descripcion = "presencia de restos celulares o patógenos frecuente en hemorragias"
+    
+    resultado= insertDiagnostico (diagnostico,descripcion)
    #return resultado
     return render_template ("index.html", resultado=resultado)
