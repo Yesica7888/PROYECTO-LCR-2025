@@ -15,8 +15,6 @@ def insertDetdia(id_deteccion): #recibe la deteccion para asociarla a un diagnos
                 SELECT (color_hex,particulas,claridad,flujo)
                 FROM deteccion
                 WHERE id_deteccion = %s
-
-
             """
 
     except Exception as e:
