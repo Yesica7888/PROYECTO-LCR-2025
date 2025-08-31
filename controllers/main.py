@@ -10,37 +10,6 @@ def index():
         resultado = 5 #simulando detección 
         return render_template ("plantilla/index.html", resultado=resultado) #de la carpeta templates accede al index
 
-#rutas temporales para prueba de la plantilla
-
-@main.route("/charts")
-def charts(): return render_template("plantilla/charts.html")
-
-@main.route("/tables")
-def tables(): return render_template("plantilla/tables.html")
-
-@main.route("/login")
-def login(): return render_template("plantilla/login.html")
-
-@main.route("/register")
-def register(): return render_template("plantilla/register.html")
-
-@main.route("/password")
-def password(): return render_template("plantilla/password.html")
-
-@main.route("/layout-static")
-def layout_static(): return render_template("plantilla/layout-static.html")
-
-@main.route("/layout-sidenav-light")
-def layout_sidenav_light(): return render_template("plantilla/layout-sidenav-light.html")
-
-@main.route("/401")
-def error_401(): return render_template("plantilla/401.html")
-
-@main.route("/404")
-def error_404(): return render_template("plantilla/404.html")
-
-@main.route("/500")
-def error_500(): return render_template("plantilla/500.html")
 
 #@main.route('/s')
 #def index():
