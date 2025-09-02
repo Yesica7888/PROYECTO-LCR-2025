@@ -13,7 +13,6 @@
             <!-- no hay img aca, si hubiera debo referenciarlas con la-->
         </head>
         <body class="sb-nav-fixed">
-            <p>Registro correcto:  <strong>{{ resultado }}</strong></p>
             <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
                 <!-- Navbar Brand-->
                 <a class="navbar-brand ps-3" href="#">Start Bootstrap</a> 
@@ -116,7 +115,17 @@
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Dashboard</li>
                             </ol>
+
                             <div class="row">
+                            <!--prueba imagen-->     
+                                <p>Registro correcto:  <strong>{{ resultado }}</strong></p>
+                            <div>
+                                 <p> IMAGEN GENERADA  =3 {{image_path}}</p>
+                                 {% if image_path %}
+                                <img src="{{ image_path }}" class="img-fluid">
+                                {% endif %}
+                            </div>
+           
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-primary text-white mb-4">
                                         <div class="card-body">Primary Card</div>
