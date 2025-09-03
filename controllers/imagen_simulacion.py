@@ -117,13 +117,22 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
         count += 1
     image.save(image_path)
 
-    return image_path
+    #Envio de parametros para realizar la deteccion 
+    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":flujo}
+
+    #envio la ruta de la imagen y los parametros en un diccionario :) para 
+    # simular la deteccion, que esta me retorne el id ingresado 
+    # y ese id de la deteccion acabado de realizar se envie como parámetro para guardar en la BBDD la imagen 
+    return image_path,parametros_lcr
 
 
 @image_bp.route("/img") #debe tener el mismo nombre que el bp generado arriba despues de  las importaciones
 def generate_image():
-    image_path = generateImg("#8B0000",True,False,False)  # simulando hemorragia traumatica
+    #image_path = generateImg("#8B0000",True,False,False)  # simulando hemorragia traumatica
     #return jsonify({"message": "Imagen generada", "path": image_path})
     #para mantener el estilo ...
-    return render_template("plantilla/index.html", image_path=image_path) #le pasa la variable de la imagen
+
+    image_path,parametros_lcr = generateImg("#8B0000",True,False,False)  
+
+    return render_template("plantilla/index.html", image_path=image_path, parametros_lcr=parametros_lcr) #le pasa la variable de la imagen
 

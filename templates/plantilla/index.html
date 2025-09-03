@@ -123,6 +123,19 @@
                                  <p> IMAGEN GENERADA  =3 {{image_path}}</p>
                                  {% if image_path %}
                                 <img src="{{ image_path }}" class="img-fluid">
+                                <p>
+                                   {{parametros_lcr.color_hex}}
+                                   {{parametros_lcr.particulas}}
+                                   {{parametros_lcr.claridad}}
+                                   {{parametros_lcr.flujo}}
+                                </p>
+                                <h3>Parámetros de la simulación:</h3>
+                                    <ul>
+                                    <li>Color: {{ parametros_lcr.color_hex }}</li>
+                                    <li>Partículas: {{ parametros_lcr.particulas }}</li>
+                                    <li>Claridez: {{ parametros_lcr.claridad }}</li>
+                                    <li>Flujo: {{ parametros_lcr.flujo }}</li>
+                                    </ul>
                                 {% endif %}
                             </div>
            
