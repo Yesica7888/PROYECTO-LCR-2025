@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify,render_template
 from PIL import Image, ImageDraw, ImageFilter
+from datetime import datetime 
+from models.deteccion import insertDeteccion  #funcion insertar deteccion de modelo
 import os
 import math
 import random
@@ -117,8 +119,9 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
         count += 1
     image.save(image_path)
 
-    #Envio de parametros para realizar la deteccion 
-    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":flujo}
+    #Envio de parametros para realizar la deteccion , tuve que realizar un cast a flujo porque al 
+    #generar el flujo queda cmo una variable entera
+    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":bool(flujo)}
 
     #envio la ruta de la imagen y los parametros en un diccionario :) para 
     # simular la deteccion, que esta me retorne el id ingresado 
@@ -126,13 +129,34 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
     return image_path,parametros_lcr
 
 
-@image_bp.route("/img") #debe tener el mismo nombre que el bp generado arriba despues de  las importaciones
-def generate_image():
+#@image_bp.route("/img") #debe tener el mismo nombre que el bp generado arriba despues de  las importaciones
+#def generate_image():
     #image_path = generateImg("#8B0000",True,False,False)  # simulando hemorragia traumatica
     #return jsonify({"message": "Imagen generada", "path": image_path})
     #para mantener el estilo ...
 
-    image_path,parametros_lcr = generateImg("#8B0000",True,False,False)  
+#    image_path,parametros_lcr = generateImg("#8B0000",True,False,False)  
 
-    return render_template("plantilla/index.html", image_path=image_path, parametros_lcr=parametros_lcr) #le pasa la variable de la imagen
+#    return render_template("plantilla/index.html", image_path=image_path, parametros_lcr=parametros_lcr) #le pasa la variable de la imagen
+
+
+# Parametros de imagen en deteccion, guardando en BBDD una nueva deteccion 
+
+@image_bp.route('/deteccionimg')
+def generate_image():
+ #generar imagen con parametros
+ image_path,parametros_lcr = generateImg("#8B0000",True,False,False)  
+
+ #simular la deteccion y guardar en BBDD
+ fecha=datetime.now().date()
+ hora=datetime.now().time()
+ id_deteccion=insertDeteccion(fecha,parametros_lcr["color_hex"],parametros_lcr["particulas"],
+                              parametros_lcr["claridad"],parametros_lcr["flujo"],hora)
+ 
+ return render_template("plantilla/index.html", image_path=image_path,
+                         parametros_lcr=parametros_lcr, deteccion=id_deteccion) 
+#deteccion es el nombre de la variable que deseo y con ese nombre voy a llamarlo en el index
+
+
+
 
