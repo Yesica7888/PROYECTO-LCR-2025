@@ -22,8 +22,8 @@ def insertDeteccion  (fecha,color_hex, particulas,claridad,flujo,hora):
         conn.commit()
         cursor.close() #permite cerrar el cursor que es el que permite scripts SQL 
         conn.close()
-        #return id_deteccion puede ser así o
-        return f"id insertado: {id_deteccion}"
+        return id_deteccion #puede ser así para que solo devuelva un entero 
+        #return f"id insertado: {id_deteccion}"
     except Exception as e:
         return f"Error al insertar: {e}"
     

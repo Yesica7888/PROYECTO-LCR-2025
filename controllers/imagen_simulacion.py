@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify,render_template
 from PIL import Image, ImageDraw, ImageFilter
 from datetime import datetime 
 from models.deteccion import insertDeteccion  #funcion insertar deteccion de modelo
+from models.imagen import insertImagen # insertar imagen de acuerdo a la deteccion 
 import os
 import math
 import random
@@ -152,9 +153,12 @@ def generate_image():
  hora=datetime.now().time()
  id_deteccion=insertDeteccion(fecha,parametros_lcr["color_hex"],parametros_lcr["particulas"],
                               parametros_lcr["claridad"],parametros_lcr["flujo"],hora)
- 
+#insertando Imagen a la BBDD, recibe como parametro : ruta_imagen,fk_id_deteccion
+ id_imagen= insertImagen(image_path,id_deteccion)
+
  return render_template("plantilla/index.html", image_path=image_path,
-                         parametros_lcr=parametros_lcr, deteccion=id_deteccion) 
+                         parametros_lcr=parametros_lcr, deteccion=id_deteccion,
+                         imagenbbdd=id_imagen) 
 #deteccion es el nombre de la variable que deseo y con ese nombre voy a llamarlo en el index
 
 
