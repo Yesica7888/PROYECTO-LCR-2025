@@ -1,5 +1,7 @@
 from models.db import getConnection #importo la conexión a la BBDD del archivo db.py
 
+#los diagnosticos no se insertan , se llaman para asociarlos a una deteccion 
+
 #función para insertar un diagnostico
 def insertDiagnostico  (diagnostico,descripcion):
     conn = getConnection()

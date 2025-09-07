@@ -1,6 +1,6 @@
 from models.db import getConnection #conexión a la BBDD
 
-#REVISAR EL INSERTAR LA ASOCIACIÓN ENTRE DETECCION Y DIAGNOSTICO, Pendiente
+
 def insertDetdia(fk_id_deteccion,fk_id_diagnostico): #recibe la deteccion para asociarla a un diagnostico
     conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
     if conn is None: # control de posibles errores

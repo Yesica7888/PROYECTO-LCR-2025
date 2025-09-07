@@ -35,3 +35,15 @@ def getDeteccion():
     cursor.close()
     conn.close()
     return registros
+
+#modificar consulta...
+def getDeteccionId(id_deteccion):
+    conn = getConnection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_deteccion, fecha,color_hex,particulas,claridad,flujo,hora FROM deteccion " \
+    "WHERE id_deteccion = %s ",(id_deteccion,))
+    registro = cursor.fetchone() #devuelve el registro único por el id
+    cursor.close()
+    conn.close()
+    return registro
+    
