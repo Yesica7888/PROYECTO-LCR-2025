@@ -36,4 +36,18 @@ def getDiagnostico():
     cursor.close()
     conn.close()
     return registros
-     
+    
+
+def getDiagnosticoId(id_diagnostico):
+    conn = getConnection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_diagnostico,diagnostico,descripcion FROM diagnostico " \
+    "WHERE id_diagnostico = %s ",(id_diagnostico,))
+    registro = cursor.fetchone() #devuelve el registro único por el id
+    cursor.close()
+    conn.close()
+    if registro:
+     return registro
+    else:
+     return None
+    

@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify,render_template
+from flask import Blueprint, jsonify,render_template, redirect,url_for
 from PIL import Image, ImageDraw, ImageFilter
 from datetime import datetime 
 from models.deteccion import insertDeteccion  #funcion insertar deteccion de modelo
 from models.imagen import insertImagen # insertar imagen de acuerdo a la deteccion 
+from controllers.diagnostico_simulacion import analisisDeteccion 
 import os
 import math
 import random
@@ -76,11 +77,12 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
             transparencia = random.randint(brillo, 255 if claridad else 200) # transparencia de acuerdo al valor del brillo y claridad
             
             # Si flujo es True, aplica patrón sinusoidal
-            flujo = math.sin(x * 0.02 + y * 0.01) * 2 if flujo else 0 #si hay flujo añade patron sen valores entre -2 y +2
+            
+            flujo_px = math.sin(x * 0.02 + y * 0.01) * 2 if flujo else 0 #si hay flujo añade patron sen valores entre -2 y +2
 
-            r = min(255, transparencia + flujo) #manteniendo valores hasta 255 que es el limite de color en RGB
-            g = min(255, transparencia + flujo)
-            b = min(255, transparencia + flujo)
+            r = min(255, transparencia + flujo_px) #manteniendo valores hasta 255 que es el limite de color en RGB
+            g = min(255, transparencia + flujo_px)
+            b = min(255, transparencia + flujo_px)
             
             #pintando cada x con el color calgulado
             draw.point((x, y), fill=(int(r), int(g), int(b)))
@@ -122,7 +124,7 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
 
     #Envio de parametros para realizar la deteccion , tuve que realizar un cast a flujo porque al 
     #generar el flujo queda cmo una variable entera
-    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":bool(flujo)}
+    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":flujo}
 
     #envio la ruta de la imagen y los parametros en un diccionario :) para 
     # simular la deteccion, que esta me retorne el id ingresado 
@@ -146,7 +148,7 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
 @image_bp.route('/deteccionimg')
 def generate_image():
  #generar imagen con parametros
- image_path,parametros_lcr = generateImg("#8B0000",True,False,False)  
+ image_path,parametros_lcr = generateImg("#FFC0CB",True,False,True)  
 
  #simular la deteccion y guardar en BBDD
  fecha=datetime.now().date()
@@ -155,12 +157,19 @@ def generate_image():
                               parametros_lcr["claridad"],parametros_lcr["flujo"],hora)
 #insertando Imagen a la BBDD, recibe como parametro : ruta_imagen,fk_id_deteccion
  id_imagen= insertImagen(image_path,id_deteccion)
+#Realizando el diagnostico 
+ id_diag_det,diagnostico = analisisDeteccion(id_deteccion) #le envio el id de la deteccion y devuelve el id de la asociacion del diagnostico con la deteccion 
+
+#Ahora falta hacer consulta SQL para no solo mostrar el id sino para mostrar el diagnostico generado
 
  return render_template("plantilla/index.html", image_path=image_path,
                          parametros_lcr=parametros_lcr, deteccion=id_deteccion,
-                         imagenbbdd=id_imagen) 
+                         imagenbbdd=id_imagen, detecciondiagnostico=id_diag_det, diagnostico=diagnostico[1:]) 
 #deteccion es el nombre de la variable que deseo y con ese nombre voy a llamarlo en el index
-
+#si hago esto ( el return comentado)mezclaria responsabilidades de MVC 
+#redirecciono ...
+#ya no redirecciono porque es un proceso interno que hace al realizar la deteccion 
+# return redirect(url_for("diagnostico_bp.analizarDeteccion", id_deteccion=id_deteccion))
 
 
 
