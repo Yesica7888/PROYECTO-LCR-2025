@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template
-from models.deteccion import insertDeteccion  # funciones en el archivo deteccion en el modelo del proyecto
-from models.diagnostico import insertDiagnostico
+#from models.deteccion import insertDeteccion  # funciones en el archivo deteccion en el modelo del proyecto
+#from models.diagnostico import insertDiagnostico
 from datetime import datetime # para usar la fecha 
 
-main= Blueprint('main', __name__ ,template_folder='templates')
+main= Blueprint('main', __name__ )
 
-@main.route('/jhon' , endpoint="index")   
-def index():
-        resultado = 5 #simulando detección 
-        return render_template ("plantilla/index.html", resultado=resultado) #de la carpeta templates accede al index
+@main.route('/r')   
+def index(): #con este nombre se llama en el index.html
+    res="bp main :)" 
+    return render_template ("plantilla/index.html", resultado=res) #de la carpeta templates accede al index
 
 
 #@main.route('/s')

@@ -148,7 +148,7 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
 @image_bp.route('/deteccionimg')
 def generate_image():
  #generar imagen con parametros
- image_path,parametros_lcr = generateImg("#FFC0CB",True,False,True)  
+ image_path,parametros_lcr = generateImg("#FFFFFF",False,True,True)  
 
  #simular la deteccion y guardar en BBDD
  fecha=datetime.now().date()
