@@ -46,3 +46,11 @@ def getDeteccionId(id_deteccion):
     conn.close()
     return registro
     
+def getTotalDeteccion():
+    conn= getConnection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM deteccion") 
+    registro = cursor.fetchone()[0] #la función devuelve una tupla con un único valor y necesito unicamente el número por eso accedo al "primer elemento"
+    cursor.close()
+    conn.close()
+    return registro    
