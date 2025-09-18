@@ -38,39 +38,28 @@ def getDetDiaResumen():
       
        
         query = """
-                SELECT detdia.id_det_dia,
-	            det.fecha,det.hora,dia.diagnostico,
-	            dia.descripcion,i.ruta_imagen"
-	            FROM deteccion_diagnostico AS detdia
-	            INNER JOIN deteccion AS det 
-	            ON detdia.fk_id_deteccion = det.id_deteccion
-	            INNER JOIN diagnostico AS dia
-	            ON detdia.fk_id_diagnostico= dia.id_diagnostico
-	            INNER JOIN imagen AS i
-	            ON i.fk_id_deteccion = det.id_deteccion;
+                SELECT detdia.id_det_dia AS "N° Detección",det.fecha AS "Fecha",
+                det.hora AS "Hora",dia.diagnostico AS "Diagnostico",dia.descripcion AS "Desripción",
+                i.ruta_imagen AS "Imagen"
+                FROM deteccion_diagnostico AS detdia
+                INNER JOIN deteccion AS det 
+                ON detdia.fk_id_deteccion = det.id_deteccion
+                INNER JOIN diagnostico AS dia
+                ON detdia.fk_id_diagnostico= dia.id_diagnostico
+                INNER JOIN imagen AS i
+                ON i.fk_id_deteccion = det.id_deteccion
             """
-        #ejecuta la sentencia SQL y envia por parámetro los atributos 
+        #ejecuta la sentencia SQL  
         cursor.execute(query)
-        #retorna el id de la relacion entre deteccion y diagnostico agregada
-         # recupero una fila del resultado de la columna
-        id_det_dia= cursor.fetchone()[0] #fetch es una función,no olvidar los paréntesis
+        # Alias de las columnas    
+        columns= [alias[0] for alias in cursor.description]
+        registros= cursor.fetchall() # trae los registros de la consulta
         conn.commit()
         cursor.close() #cerrar el cursor  
         conn.close()
-        return f"id deteccion diagnostico insertado: {id_det_dia}"
+        return columns, registros
     except Exception as e:
         return f"Error al insertar: {e}"
     
 
-    """
-	SELECT detdia.id_det_dia AS "N° Detección",
-	det.fecha AS "Fecha",det.hora AS "Hora",dia.diagnostico AS "Diagnostico",
-	dia.descripcion AS "Descripción",i.ruta_imagen AS "Imagen"
-	FROM deteccion_diagnostico AS detdia
-	INNER JOIN deteccion AS det 
-	ON detdia.fk_id_deteccion = det.id_deteccion
-	INNER JOIN diagnostico AS dia
-	ON detdia.fk_id_diagnostico= dia.id_diagnostico
-	INNER JOIN imagen AS i
-	ON i.fk_id_deteccion = det.id_deteccion
-    """
+   

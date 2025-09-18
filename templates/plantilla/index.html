@@ -167,26 +167,26 @@
                                     <table id="datatablesSimple">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Diagnostico</th>
-                                                <th>Descripcion</th>
+                                                {% for titles in titulos %}
+                                                <th>{{ titles }}</th>
+                                                {% endfor %}
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Diagnostico</th>
-                                                <th>Descripcion</th>
+                                                {% for titles in titulos %}
+                                                <th>{{ titles }}</th>
+                                                {% endfor %}
                                             </tr>
                                         </tfoot>
                                         <tbody>
+                                            {%for filas in registros%}
                                             <tr>
-                                                <td>1</td>
-                                                <td>LCR normal</td>
-                                                <td>Líquido claro y transparente, sin señales de enfermedad.</td>
-                                                
+                                                {% for valor in filas %}
+                                                    <td> {{valor}}</td>
+                                                {% endfor %}
                                             </tr>
-                                            
+                                            {%endfor %}
                                         </tbody>
                                     </table>
                                 </div>

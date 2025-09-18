@@ -8,9 +8,11 @@ main= Blueprint('main', __name__ )
 @main.route('/r')   
 def index(): #con este nombre se llama en el index.html
     totalDetecciones= getTotalDeteccion() #total detecciones 
-    # pendiente mostrar tabla de resumen O_O
-
-
-    return render_template ("plantilla/index.html", resultado=totalDetecciones) #de la carpeta templates accede al index
+    # Tabla de resumen  
+    columns,registros= getDetDiaResumen()
+    print("Columns:", columns)
+    print("Registros:", type(registros), len(registros))
+    
+    return render_template ("plantilla/index.html", resultado=totalDetecciones, titulos=columns,registros=registros) #de la carpeta templates accede al index
 
 
