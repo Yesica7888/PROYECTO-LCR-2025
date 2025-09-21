@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from models.deteccion import getTotalDeteccion  
-from models.deteccion_diagnostico import getDetDiaResumen #O_O
+from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado #O_O
 
 
 main= Blueprint('main', __name__ )
@@ -8,11 +8,17 @@ main= Blueprint('main', __name__ )
 @main.route('/r')   
 def index(): #con este nombre se llama en el index.html
     totalDetecciones= getTotalDeteccion() #total detecciones 
+    # detecciones por riesgo
+    riesgo_bajo= get_total_riesgo_bajo()
+    riesgo_moderado = get_total_riesgo_moderado()
+    riesgo_alto = get_total_riesgo_alto()
+
     # Tabla de resumen  
     columns,registros= getDetDiaResumen()
     print("Columns:", columns)
     print("Registros:", type(registros), len(registros))
     
-    return render_template ("plantilla/index.html", resultado=totalDetecciones, titulos=columns,registros=registros) #de la carpeta templates accede al index
+    return render_template ("plantilla/index.html", resultado=totalDetecciones, titulos=columns,registros=registros,
+                            r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto) #de la carpeta templates accede al index
 
 

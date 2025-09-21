@@ -27,6 +27,7 @@ def insertDetdia(fk_id_deteccion,fk_id_diagnostico): #recibe la deteccion para a
     except Exception as e:
         return f"Error al insertar: {e}"
     
+#Tabla resumen deteccion asociado a diagnostico
 
 def getDetDiaResumen():
     conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
@@ -34,9 +35,8 @@ def getDetDiaResumen():
         return "Error al conectar a la BBDD u_U"
     try:
         cursor= conn.cursor() #obj para ejecutar consultas SQL 
-       #En esta consulta traigo los parámetros de la deteccion para asociar a un diagnostico
-      
-       
+           
+      #tabla que resume los diagnosticos, con las detecciones realizadas 
         query = """
                 SELECT detdia.id_det_dia AS "N° Detección",det.fecha AS "Fecha",
                 det.hora AS "Hora",dia.diagnostico AS "Diagnostico",dia.descripcion AS "Desripción",
@@ -51,7 +51,7 @@ def getDetDiaResumen():
             """
         #ejecuta la sentencia SQL  
         cursor.execute(query)
-        # Alias de las columnas    
+        # Alias de las columnas "AS" en la consulta   
         columns= [alias[0] for alias in cursor.description]
         registros= cursor.fetchall() # trae los registros de la consulta
         conn.commit()
@@ -60,6 +60,89 @@ def getDetDiaResumen():
         return columns, registros
     except Exception as e:
         return f"Error al insertar: {e}"
-    
 
+#detecciones con riesgo bajo
+    
+def get_total_riesgo_bajo():
+    conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
+    if conn is None: # control de posibles errores
+        return "Error al conectar a la BBDD u_U"
+    try:
+        cursor= conn.cursor() #obj para ejecutar consultas SQL 
+       #En esta consulta traigo los parámetros de la deteccion para asociar a un diagnostico
+      
+        query = """
+                SELECT COUNT(dd.id_det_dia) AS total
+                FROM deteccion_diagnostico AS dd
+                INNER JOIN diagnostico AS dia
+                ON dd.fk_id_diagnostico = dia.id_diagnostico
+                WHERE dia.id_diagnostico IN  (1,2)
+            """
+        #ejecuta la sentencia SQL  
+        cursor.execute(query)
+        # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
+        total_riesgo_bajo= cursor.fetchone()[0]
+        conn.commit()
+        cursor.close() #cerrar el cursor  
+        conn.close()
+        return total_riesgo_bajo
+    except Exception as e:
+        return f"Error al insertar: {e}"
+   
+#detecciones con riesgo moderado PENDIENTE 
+    
+def get_total_riesgo_moderado():
+    conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
+    if conn is None: # control de posibles errores
+        return "Error al conectar a la BBDD u_U"
+    try:
+        cursor= conn.cursor() #obj para ejecutar consultas SQL 
+       #En esta consulta traigo los parámetros de la deteccion para asociar a un diagnostico
+      
+        query = """
+                SELECT COUNT(dd.id_det_dia) AS total
+                FROM deteccion_diagnostico AS dd
+                INNER JOIN diagnostico AS dia
+                ON dd.fk_id_diagnostico = dia.id_diagnostico
+                WHERE dia.id_diagnostico IN  (10,8,9,3,5)
+            """
+        #ejecuta la sentencia SQL  
+        cursor.execute(query)
+        # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
+        total_riesgo_moderado= cursor.fetchone()[0]
+        conn.commit()
+        cursor.close() #cerrar el cursor  
+        conn.close()
+        return total_riesgo_moderado
+    except Exception as e:
+        return f"Error al insertar: {e}"
+
+
+#detecciones con riesgo alto PENDIENTE
+    
+def get_total_riesgo_alto():
+    conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
+    if conn is None: # control de posibles errores
+        return "Error al conectar a la BBDD u_U"
+    try:
+        cursor= conn.cursor() #obj para ejecutar consultas SQL 
+       #En esta consulta traigo los parámetros de la deteccion para asociar a un diagnostico
+      
+        query = """
+                SELECT COUNT(dd.id_det_dia) AS total
+                FROM deteccion_diagnostico AS dd
+                INNER JOIN diagnostico AS dia
+                ON dd.fk_id_diagnostico = dia.id_diagnostico
+                WHERE dia.id_diagnostico IN  (4,7,6,11)
+            """
+        #ejecuta la sentencia SQL  
+        cursor.execute(query)
+        # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
+        total_riesgo_alto= cursor.fetchone()[0]
+        conn.commit()
+        cursor.close() #cerrar el cursor  
+        conn.close()
+        return  total_riesgo_alto
+    except Exception as e:
+        return f"Error al insertar: {e}"
    

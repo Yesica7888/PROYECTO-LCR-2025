@@ -7,8 +7,8 @@ from models.deteccion_diagnostico import insertDetdia
 #declaro los colores fijos que no van a cambiar 
 
 COLORESDIAGNOSTICO = {
- "#FFFACD":2,
- "#FFD700":3,
+ "#FFFACD":2, # hemorragia antigua
+ "#FFD700":3, 
  "#8B0000":5,
  "#98FB98":6,
  "#228B22":7,
@@ -31,7 +31,7 @@ def analisisDeteccion(id_deteccion):
      return id_detdia,diagnostico
 
 #condicion pregunta sobre atributos de la deteccion 
-   if not deteccion[3]: # si particulas false
+   if not deteccion[3]: # si particulas false LCR normal
     return insercion(1) #envia el id del diagnostico recibe el id del diagnostico asociado a deteccion
    elif deteccion[5]:# si flujo true
     return insercion(4) #diagnostico 4
