@@ -5,7 +5,7 @@ from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,
 
 main= Blueprint('main', __name__ )
 
-@main.route('/r')   
+@main.route('/principal')   
 def index(): #con este nombre se llama en el index.html
     totalDetecciones= getTotalDeteccion() #total detecciones 
     # detecciones por riesgo
@@ -22,3 +22,7 @@ def index(): #con este nombre se llama en el index.html
                             r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto) #de la carpeta templates accede al index
 
 
+#blueprint para otra pag
+@main.route('/graficos')
+def graficos():
+    return render_template('plantilla/charts.html')

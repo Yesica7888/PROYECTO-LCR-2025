@@ -1,258 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
+{%extends "plantilla/base.html"%}
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Simulador LCR </title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
-    <!--modificacion en vez de href , si no solo funcionaria asi en el index-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- no hay img aca, si hubiera debo referenciarlas con la-->
-   
-</head>
+{%block title%} Dashboard - Simulador LCR {%endblock%}
 
-<body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Menu navbar,refesh-->
-        <a class="navbar-brand ps-3" href="{{url_for('main.index')}}">Simulador LCR <i
-                class="fa-solid fa-brain"></i></a>
-        <!-- Desplegar/Esconder menu-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 ms-auto me-4" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">SIMULAR</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Nueva simulación
-                        </a>
-                        <div class="sb-sidenav-menu-heading">VISUALIZAR</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Detecciones
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Tabla detalle</a>
-                                <a class="nav-link" href="#">Agregados recientemente </a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                            aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Graficos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="sb-sidenav-menu-heading">PROTOTIPO</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Movimiento
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Presión intracraneal
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Sistema simulador de LCR</div>
-                    <a> Reporte</a>
-                </div>
-            </nav>
-        </div>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+{%block content%}
 
-                    <div class="row">
-                        <!--prueba imagen-->
-                        <p>Registro correcto: <strong>{{ resultado }}</strong></p>
-                        <div>
-                            <p> IMAGEN GENERADA =3 {{image_path}}</p>
-                            {% if image_path %}
-                            <img src="{{ image_path }}" class="img-fluid">
-                            <p>
-                                {{parametros_lcr.color_hex}}
-                                {{parametros_lcr.particulas}}
-                                {{parametros_lcr.claridad}}
-                                {{parametros_lcr.flujo}}
-                            </p>
-                            <h3>Parámetros de la simulación:</h3>
-                            <ul>
-                                <li>Color: {{ parametros_lcr.color_hex }}</li>
-                                <li>Partículas: {{ parametros_lcr.particulas }}</li>
-                                <li>Claridez: {{ parametros_lcr.claridad }}</li>
-                                <li>Flujo: {{ parametros_lcr.flujo }}</li>
-                            </ul>
-                            <h4>Id deteccion incluida siiii : {{deteccion}}</h4>
-                            <h4>Id imagen incluida con el id de la deteccion como fk n_n : {{imagenbbdd}}</h4>
-                            <h4>Id deteccion diagnostico n_n : {{detecciondiagnostico}}</h4>
-                            <h4>diagnostico : {{diagnostico}}</h4>
-                            {% endif %}
-                        </div>
 
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-primary text-white mb-4">
-                                <div class="card-header">Total detecciones </div>
-                                <div class="card-body"> # {{resultado}}</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
-                                        data-bs-target="#modaltotaldet">Ver detalles</a>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modaltotaldet" tabindex="-1"
-                                        aria-labelledby="modaltotaldetLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                            <div class="modal-content bg-dark text-white">
+<h1 class="mt-4">Dashboard</h1>
 
-                                                <!-- Encabezado -->
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modaltotaldetLabel">Total de Detecciones
-                                                    </h5>
-                                                    <button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal"></button>
-                                                </div>
+<div class="row">
+    <!--prueba imagen-->
+    <p>Registro correcto: <strong>{{ resultado }}</strong></p>
+    <div>
+        <p> IMAGEN GENERADA =3 {{image_path}}</p>
+        {% if image_path %}
+        <img src="{{ image_path }}" class="img-fluid">
+        <p>
+            {{parametros_lcr.color_hex}}
+            {{parametros_lcr.particulas}}
+            {{parametros_lcr.claridad}}
+            {{parametros_lcr.flujo}}
+        </p>
+        <h3>Parámetros de la simulación:</h3>
+        <ul>
+            <li>Color: {{ parametros_lcr.color_hex }}</li>
+            <li>Partículas: {{ parametros_lcr.particulas }}</li>
+            <li>Claridez: {{ parametros_lcr.claridad }}</li>
+            <li>Flujo: {{ parametros_lcr.flujo }}</li>
+        </ul>
+        <h4>Id deteccion incluida siiii : {{deteccion}}</h4>
+        <h4>Id imagen incluida con el id de la deteccion como fk n_n : {{imagenbbdd}}</h4>
+        <h4>Id deteccion diagnostico n_n : {{detecciondiagnostico}}</h4>
+        <h4>diagnostico : {{diagnostico}}</h4>
+        {% endif %}
+    </div>
 
-                                                <!-- Cuerpo -->
-                                                <div class="modal-body">
-                                                    Aquí pondrías tus datos (ejemplo: estadísticas de detecciones).
-                                                </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-header">Total detecciones </div>
+            <div class="card-body"> # {{resultado}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
+                    data-bs-target="#m-total-det">Ver detalles</a>
+                <!-- Modal -->
+                <div class="modal fade" id="m-total-det" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content ">
 
-                                                <!-- Pie -->
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cerrar</button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+                            <!-- Encabezado -->
+                            <div class="modal-header">
+                                <h5 class="modal-title">Total de Detecciones
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-header">Detecciones riesgo bajo</div>
-                                <div class="card-body"># {{r1}}</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">ver detalles</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+
+                            <!-- Cuerpo -->
+                            <div class="modal-body">
+                                Aquí pondrías tus datos (ejemplo: estadísticas de detecciones).
                             </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
-                                <div class="card-header">Detecciones riesgo moderado</div>
-                                <div class="card-body"># {{r2}}</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">Ver detalles</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+
+                            <!-- Pie -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
-                                <div class="card-header">Detecciones riesgo Alto</div>
-                                <div class="card-body"># {{r3}}</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">Ver detalles</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-area me-1"></i>
-                                    Presión intracraneal (simulación)
-                                </div>
-                                <div class="card-body"><canvas id="pic" width="100%" height="40"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    Diagnostico frecuente en simulación
-                                </div>
-                                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Diagnosticos
-                        </div>
-                        <div class="card-body">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        {% for titles in titulos %}
-                                        <th>{{ titles }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        {% for titles in titulos %}
-                                        <th>{{ titles }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    {%for filas in registros%}
-                                    <tr>
-                                        {% for valor in filas %}
-                                        <td> {{valor}}</td>
-                                        {% endfor %}
-                                    </tr>
-                                    {%endfor %}
-                                </tbody>
-                            </table>
+
                         </div>
                     </div>
                 </div>
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Sistema LCR 2025</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='assets/demo/grafico-pic.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/demo/chart-bar-demo.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
-</body>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-header">Detecciones riesgo bajo</div>
+            <div class="card-body"># {{r1}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
+                    data-bs-target="#m-riesgo-bajo">ver detalles</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                <!-- Modal -->
+                <div class="modal fade" id="m-riesgo-bajo" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content ">
 
-</html>
+                            <!-- Encabezado -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="m-riesgo-bajo-label">Detecciones riesgo
+                                    bajo
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Cuerpo -->
+                            <div class="modal-body">
+                                Aquí pondrías tus datos (ejemplo: estadísticas de detecciones).
+                            </div>
+
+                            <!-- Pie -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-header">Detecciones riesgo moderado</div>
+            <div class="card-body"># {{r2}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
+                    data-bs-target="#m-riesgo-moderado">Ver detalles</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                <!-- Modal -->
+                <div class="modal fade" id="m-riesgo-moderado" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+
+                            <!-- Encabezado -->
+                            <div class="modal-header">
+                                <h5 class="modal-title">Riesgo Moderado</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Cuerpo -->
+                            <div class="modal-body">
+                                Aquí pondrías los datos de riesgo moderado.
+                            </div>
+
+                            <!-- Pie -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-header">Detecciones riesgo Alto</div>
+            <div class="card-body"># {{r3}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
+                    data-bs-target="#m-riesgo-alto">Ver detalles</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                <!-- Modal -->
+                <div class="modal fade" id="m-riesgo-alto" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <!-- Encabezado -->
+                            <div class="modal-header">
+                                <h5 class="modal-title">Riesgo Alto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Cuerpo -->
+                            <div class="modal-body">
+                                Aquí pondrías los datos de riesgo alto.
+                            </div>
+
+                            <!-- Pie -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                Presión intracraneal (simulación)
+            </div>
+            <div class="card-body"><canvas id="pic" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Diagnostico frecuente en simulación
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Diagnosticos
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    {% for titles in titulos %}
+                    <th>{{ titles }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    {% for titles in titulos %}
+                    <th>{{ titles }}</th>
+                    {% endfor %}
+                </tr>
+            </tfoot>
+            <tbody>
+                {%for filas in registros%}
+                <tr>
+                    {% for valor in filas %}
+                    <td> {{valor}}</td>
+                    {% endfor %}
+                </tr>
+                {%endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block scripts %}
+
+<script src="{{ url_for('static', filename='assets/demo/grafico-pic.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/demo/chart-bar-demo.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
+
+{%endblock%}
+

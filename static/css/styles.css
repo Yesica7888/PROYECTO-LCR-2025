@@ -77,6 +77,7 @@
   --bs-link-hover-color: #0a58ca;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
+ 
 }
 
 *,
@@ -5327,9 +5328,11 @@ textarea.form-control-lg {
   display: flex;
   flex-direction: column;
   width: 100%;
-  color: var(--bs-modal-color);
+  /*color: var(--bs-modal-color);*/
   pointer-events: auto;
-  background-color: var(--bs-modal-bg);
+  background-color: #ffffff ; /* fondo blanco */
+  color: #212529 ;   
+  /*background-color: var(--bs-modal-bg);*/
   background-clip: padding-box;
   border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
   border-radius: var(--bs-modal-border-radius);
