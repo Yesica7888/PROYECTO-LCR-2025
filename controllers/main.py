@@ -26,3 +26,20 @@ def index(): #con este nombre se llama en el index.html
 @main.route('/graficos')
 def graficos():
     return render_template('plantilla/charts.html')
+
+#blueprint para otra pag, pendiente crear en controlador un archivo por bp
+@main.route('/simulacion')
+def simular_img():
+    return render_template('plantilla/simulacion-img.html')
+
+#detecciones tabla detallada
+@main.route('/detecciones')
+def detecciones():
+    return render_template('plantilla/deteccion-detalle.html')
+
+@main.route('/reporte')
+def reporte():
+    return render_template('plantilla/reporte-pdf.html')
+
+
+
