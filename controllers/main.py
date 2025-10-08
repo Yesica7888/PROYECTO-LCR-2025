@@ -35,7 +35,7 @@ def simular_img():
 #detecciones tabla detallada
 @main.route('/detecciones')
 def detecciones():
-    return render_template('plantilla/deteccion-detalle.html')
+    return render_template('plantilla/deteccion.html')
 
 @main.route('/reporte')
 def reporte():
