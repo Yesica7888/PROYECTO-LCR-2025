@@ -75,7 +75,12 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
     while os.path.exists(image_path):
         image_path = os.path.join(folder_path, f"{name}{count}{extension}")
         count += 1
+    # se guarda la imagen de acuerdo a SO         
     image.save(image_path)
+
+    #Si el SO es windows debo normalizar todo porque queda guardado con backslash
+
+    image_path_web = image_path.replace("\\", "/").replace("static/", "")
 
     #Envio de parametros para realizar la deteccion , tuve que realizar un cast a flujo porque al 
     #generar el flujo queda cmo una variable entera
@@ -84,7 +89,9 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
     #envio la ruta de la imagen y los parametros en un diccionario :) para 
     # simular la deteccion, que esta me retorne el id ingresado 
     # y ese id de la deteccion acabado de realizar se envie como parámetro para guardar en la BBDD la imagen 
-    return image_path,parametros_lcr
+    print("🧩 Ruta completa guardada en disco:", image_path)
+    print("🌐 Ruta normalizada para web (guardada en BBDD):", image_path_web)
+    return image_path_web,parametros_lcr
 
 
 # Parametros de imagen en deteccion, guardando en BBDD una nueva deteccion 

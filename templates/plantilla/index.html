@@ -5,35 +5,7 @@
 {%block content%}
 
 
-<h1 class="mt-4">Dashboard</h1>
-
 <div class="row">
-    <!--prueba imagen-->
-    <p>Registro correcto: <strong>{{ resultado }}</strong></p>
-    <div>
-        <p> IMAGEN GENERADA =3 {{image_path}}</p>
-        {% if image_path %}
-        <img src="{{ image_path }}" class="img-fluid">
-        <p>
-            {{parametros_lcr.color_hex}}
-            {{parametros_lcr.particulas}}
-            {{parametros_lcr.claridad}}
-            {{parametros_lcr.flujo}}
-        </p>
-        <h3>Parámetros de la simulación:</h3>
-        <ul>
-            <li>Color: {{ parametros_lcr.color_hex }}</li>
-            <li>Partículas: {{ parametros_lcr.particulas }}</li>
-            <li>Claridez: {{ parametros_lcr.claridad }}</li>
-            <li>Flujo: {{ parametros_lcr.flujo }}</li>
-        </ul>
-        <h4>Id deteccion incluida siiii : {{deteccion}}</h4>
-        <h4>Id imagen incluida con el id de la deteccion como fk n_n : {{imagenbbdd}}</h4>
-        <h4>Id deteccion diagnostico n_n : {{detecciondiagnostico}}</h4>
-        <h4>diagnostico : {{diagnostico}}</h4>
-        {% endif %}
-    </div>
-
     <div class="col-xl-3 col-md-6">
         <div class="card bg-primary text-white mb-4">
             <div class="card-header">Total detecciones </div>
@@ -180,70 +152,12 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xl-6">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-chart-area me-1"></i>
-                Presión intracraneal (simulación)
-            </div>
-            <div class="card-body"><canvas id="pic" width="100%" height="40"></canvas></div>
-        </div>
-    </div>
-    <div class="col-xl-6">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-chart-bar me-1"></i>
-                Diagnostico frecuente en simulación
-            </div>
-            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-        </div>
-    </div>
-</div>
-<div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        Diagnosticos
-    </div>
-    <div class="card-body">
-        <table id="datatablesSimple">
-            <thead>
-                <tr>
-                    {% for titles in titulos %}
-                    <th>{{ titles }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    {% for titles in titulos %}
-                    <th>{{ titles }}</th>
-                    {% endfor %}
-                </tr>
-            </tfoot>
-            <tbody>
-                {%for filas in registros%}
-                <tr>
-                    {% for valor in filas %}
-                    <td> {{valor}}</td>
-                    {% endfor %}
-                </tr>
-                {%endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+
 
 
 {%endblock%}
 
 {%block scripts %}
 
-<script src="{{ url_for('static', filename='assets/demo/grafico-pic.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/demo/chart-bar-demo.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
 
 {%endblock%}
-

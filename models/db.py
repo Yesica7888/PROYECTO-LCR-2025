@@ -5,7 +5,7 @@ def getConnection():
        conn = psycopg2.connect(
         dbname="robotLCR",
         user="user_robot",
-        password="robotlcr",
+        password="7888",
         host="localhost",
         port="5432"
     )

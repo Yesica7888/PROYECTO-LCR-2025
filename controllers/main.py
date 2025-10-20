@@ -13,12 +13,7 @@ def index(): #con este nombre se llama en el index.html
     riesgo_moderado = get_total_riesgo_moderado()
     riesgo_alto = get_total_riesgo_alto()
 
-    # Tabla de resumen  
-    columns,registros= getDetDiaResumen()
-    print("Columns:", columns)
-    print("Registros:", type(registros), len(registros))
-    
-    return render_template ("plantilla/index.html", resultado=totalDetecciones, titulos=columns,registros=registros,
+    return render_template ("plantilla/index.html", resultado=totalDetecciones, 
                             r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto) #de la carpeta templates accede al index
 
 
@@ -35,7 +30,11 @@ def simular_img():
 #detecciones tabla detallada
 @main.route('/detecciones')
 def detecciones():
-    return render_template('plantilla/deteccion.html')
+    # Tabla de resumen  
+    columns,registros= getDetDiaResumen()
+    print("Columns:", columns)
+    print("Registros:", type(registros), len(registros))
+    return render_template('plantilla/deteccion.html',titulos=columns,registros=registros,)
 
 @main.route('/reporte')
 def reporte():

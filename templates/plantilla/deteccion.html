@@ -4,6 +4,87 @@
 
 {% block content %}
 
-<h1> Tabla de todas las  detecciones  </h1>
+<!--en el bp centralizar las variables requeridas para la tabla -->
+
+<h1> Tabla de todas las detecciones </h1>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Diagnosticos
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    {% for titles in titulos %}
+                    <th>{{ titles }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    {% for titles in titulos %}
+                    <th>{{ titles }}</th>
+                    {% endfor %}
+                </tr>
+            </tfoot>
+            <tbody>
+                {%for filas in registros%}
+                <tr>
+                    {% for valor in filas %}
+                    {% if valor is string and valor.endswith('.png')%}
+                    <td>
+                        <a href="#" class="text-dark img-trigger" data-bs-toggle="modal" data-bs-target="#img-modal"
+                            data-img="{{ url_for('static', filename=valor) }}"> <i
+                                class="fa-regular fa-image fa-2x"></i>
+                        </a>
+                    </td>
+                    {%else%}
+                    <td> {{valor}}</td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {%endfor %}
+            </tbody>
+
+            <!--un solo Modal dinamico para las imagenes -->
+            <div class="modal fade" id="img-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content ">
+
+                        <!-- Encabezado -->
+                        <div class="modal-header">
+                            <h5 class="modal-title">Imagen
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Cuerpo -->
+                        <div class="modal-body">
+                            <img id="img-modal-js" src="" alt="Imagen detección" class="img-fluid rounded shadow">
+                        </div>
+
+                        <!-- Pie -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </table>
+    </div>
+</div>
 
 {%endblock%}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/img-modal.js') }}"></script>
+
+{% endblock %}
