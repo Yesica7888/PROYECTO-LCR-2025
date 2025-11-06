@@ -6,4 +6,21 @@
 
 <h1> Reporte pdf resumen total de lo encontrado</h1>
 
+
+<h2 class="mb-3">Reporte de Análisis del LCR</h2>
+
+<div class="container mt-4">
+    <h2>Visor de Reporte PDF</h2>
+
+  
+
+    <!-- Visor del PDF -->
+    <iframe 
+        src="{{ url_for('static', filename='reportes/' + pdf_file) }}" 
+        width="100%" height="600px" 
+        style="border: 1px solid #ccc; border-radius: 8px;">
+    </iframe>
+</div>
+
+
 {%endblock%}
