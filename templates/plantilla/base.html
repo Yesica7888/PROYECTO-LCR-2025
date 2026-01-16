@@ -48,6 +48,10 @@
                             Gráficos
                         </a>
                         <div class="sb-sidenav-menu-heading">PROTOTIPO</div>
+                        <a class="nav-link" href="{{ url_for('electronica.conexion')}}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Conexión bluetooth
+                        </a>
                         <a class="nav-link" href="{{ url_for('electronica.mov_motores')}}">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Movimiento
@@ -55,6 +59,10 @@
                         <a class="nav-link" href="{{ url_for('electronica.presion')}}">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Presión intracraneal
+                        </a>
+                        <a class="nav-link" href="{{ url_for('electronica.temperatura')}}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Temperatura
                         </a>
                         <div class="sb-sidenav-menu-heading">CONCLUSION</div>
                         <a class="nav-link" href="{{ url_for('main.reporte')}}">
@@ -98,6 +106,7 @@
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='assets/demo/grafico-pic.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/demo/grafico-celsius.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/demo/chart-bar-demo.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/demo/chart-pie-demo.js') }}"></script>
     {% block scripts %}{% endblock %}

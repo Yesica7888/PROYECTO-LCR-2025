@@ -4,81 +4,32 @@
 
 {%block content%}
 
-
-<div class="row">
+<div class="container-fluid mt-4 px-3">
+<div class="row g-3">
     <div class="col-xl-3 col-md-6">
         <div class="card bg-primary text-white mb-4">
             <div class="card-header">Total detecciones </div>
             <div class="card-body"> # {{resultado}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
-                    data-bs-target="#m-total-det">Ver detalles</a>
-                <!-- Modal -->
-                <div class="modal fade" id="m-total-det" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content ">
-
-                            <!-- Encabezado -->
-                            <div class="modal-header">
-                                <h5 class="modal-title">Total de Detecciones
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Cuerpo -->
-                            <div class="modal-body">
-                                Aquí pondrías tus datos (ejemplo: estadísticas de detecciones).
-                            </div>
-
-                            <!-- Pie -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
+                    aria-expanded="false" aria-controls="collapse-det" data-detalle="1">
+                    Ver detalles
+                </a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
+
     <div class="col-xl-3 col-md-6">
         <div class="card bg-success text-white mb-4">
             <div class="card-header">Detecciones riesgo bajo</div>
             <div class="card-body"># {{r1}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
-                    data-bs-target="#m-riesgo-bajo">ver detalles</a>
+                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
+                    aria-expanded="false" aria-controls="collapse-det" data-detalle="2">
+                    Ver detalles
+                </a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                <!-- Modal -->
-                <div class="modal fade" id="m-riesgo-bajo" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content ">
-
-                            <!-- Encabezado -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="m-riesgo-bajo-label">Detecciones riesgo
-                                    bajo
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Cuerpo -->
-                            <div class="modal-body">
-                                Aquí pondrías tus datos (ejemplo: estadísticas de detecciones).
-                            </div>
-
-                            <!-- Pie -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
             </div>
         </div>
     </div>
@@ -87,32 +38,11 @@
             <div class="card-header">Detecciones riesgo moderado</div>
             <div class="card-body"># {{r2}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
-                    data-bs-target="#m-riesgo-moderado">Ver detalles</a>
+                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
+                    aria-expanded="false" aria-controls="collapse-det" data-detalle="3">
+                    Ver detalles
+                </a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                <!-- Modal -->
-                <div class="modal fade" id="m-riesgo-moderado" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-
-                            <!-- Encabezado -->
-                            <div class="modal-header">
-                                <h5 class="modal-title">Riesgo Moderado</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Cuerpo -->
-                            <div class="modal-body">
-                                Aquí pondrías los datos de riesgo moderado.
-                            </div>
-
-                            <!-- Pie -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -121,35 +51,29 @@
             <div class="card-header">Detecciones riesgo Alto</div>
             <div class="card-body"># {{r3}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#" data-bs-toggle="modal"
-                    data-bs-target="#m-riesgo-alto">Ver detalles</a>
+<a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
+                    aria-expanded="false" aria-controls="collapse-det" data-detalle="4">
+                    Ver detalles 4
+                </a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                <!-- Modal -->
-                <div class="modal fade" id="m-riesgo-alto" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <!-- Encabezado -->
-                            <div class="modal-header">
-                                <h5 class="modal-title">Riesgo Alto</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Cuerpo -->
-                            <div class="modal-body">
-                                Aquí pondrías los datos de riesgo alto.
-                            </div>
-
-                            <!-- Pie -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<div>
+
+    <p> CONTENEDOR PARA RESUMEN DE INFORMACIÓN </p>
+
+    <div class="collapse" id="collapse-det">
+        <div class="card card-body" id="det-dinamico">
+            Aquí puedes colocar el contenido que se mostrará al hacer clic en "Ver detalles".
+        </div>
+    </div>
+
+
+
 </div>
 
 
@@ -159,5 +83,5 @@
 
 {%block scripts %}
 
-
+ <script src="{{ url_for('static', filename='js/detalle-riesgo.js') }}"></script>
 {%endblock%}

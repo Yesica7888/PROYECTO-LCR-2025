@@ -89,8 +89,8 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
     #envio la ruta de la imagen y los parametros en un diccionario :) para 
     # simular la deteccion, que esta me retorne el id ingresado 
     # y ese id de la deteccion acabado de realizar se envie como parámetro para guardar en la BBDD la imagen 
-    print("🧩 Ruta completa guardada en disco:", image_path)
-    print("🌐 Ruta normalizada para web (guardada en BBDD):", image_path_web)
+    print(" Ruta completa guardada en disco:", image_path)
+    print(" Ruta normalizada para web (guardada en BBDD):", image_path_web)
     return image_path_web,parametros_lcr
 
 

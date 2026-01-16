@@ -4,6 +4,7 @@ from models.diagnostico import getDiagnosticoId
 from models.deteccion_diagnostico import insertDetdia
 
 
+
 #declaro los colores fijos que no van a cambiar 
 
 COLORESDIAGNOSTICO = {
@@ -16,6 +17,21 @@ COLORESDIAGNOSTICO = {
  "#F2F2F2":9,
  "#F5F5F5":10,
  "#FF6666":11
+}
+
+
+NOMBRESCOLORES = {
+"#FFFFFF": "Transparente",            # LCR NORMAL
+"#FFFACD": "Amarillo muy pálido",      # HEMORRAGIA ANTIGUA
+"#FFD700": "Amarillo intenso",         # HIPERPROTEINEMIA
+"#FFC0CB": "Rosado",                   # HEMORRAGIA SUBARACNOIDEA
+"#8B0000": "Rojo oscuro",              # HEMORRAGIA TRAUMÁTICA
+"#98FB98": "Verde pálido",              # INFECCIÓN BACTERIANA
+"#228B22": "Verde oscuro",              # MENINGITIS PURULENTA
+"#E6E68A": "Amarillo opaco",            # MENINGITIS TUBERCULOSA
+"#F2F2F2": "Blanco grisáceo",           # CRIPTOCOCOSIS
+"#F5F5F5": "Blanco lechoso",            # METÁSTASIS O CÁNCER
+"#FF6666": "Rojo claro"                 # ABSCESO CEREBRAL
 }
 
 #consulto deteccion y aplico clasificador 
