@@ -22,13 +22,14 @@
 
                                             <!-- Color -->
                                             <div class="form-floating mb-3">
-                                                <select class="form-select" id="color" name="color">
-                                                    <option value="claro">Claro</option>
-                                                    
+                                                <select class="form-select" id="color" name="color" required>
+                                                    <option value="" disabled selected>Seleccione un color</option>
+                                                    {% for color_hex, nombre_color in colores_formulario.items() %}
+                                                    <option value="{{ color_hex }}">{{ nombre_color }}</option>
+                                                    {% endfor %}
                                                 </select>
                                                 <label for="color">Color</label>
                                             </div>
-
                                             <!-- Partículas -->
                                             <div class="form-floating mb-3">
                                                 <select class="form-select" id="particulas" name="particulas">

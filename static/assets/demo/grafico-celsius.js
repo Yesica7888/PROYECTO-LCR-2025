@@ -99,6 +99,7 @@ var myAreaChart = new Chart(ctx, {
                 max: 38.5, // valor máximo del eje Y valor max en hidrocefalia
                 ticks: {
                     stepSize: 1 // separación de las marcas (cada grado °C)
+                    
                 },
                 grid: {
                     color: "rgba(0, 0, 0, .125)" //eje y lineas

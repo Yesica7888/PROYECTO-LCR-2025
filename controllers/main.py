@@ -3,7 +3,7 @@ from models.deteccion import getTotalDeteccion
 from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado #O_O
 #para el reporte
 from reportlab.pdfgen import canvas
-#from diagnostico_simulacion import NOMBRESCOLORES #para el forms
+from controllers.diagnostico_simulacion import NOMBRESCOLORES #para el forms
 import os
 
 main= Blueprint('main', __name__ )
@@ -43,7 +43,7 @@ def graficos():
 #blueprint para otra pag, pendiente crear en controlador un archivo por bp 
 @main.route('/simulacion')
 def simular_img():
-    return render_template('plantilla/simulacion-img.html', colores_formulario=NOMBRESCOLORES)
+   return render_template('plantilla/simulacion-img.html', colores_formulario=NOMBRESCOLORES)
 
 #detecciones tabla detallada
 @main.route('/detecciones')
