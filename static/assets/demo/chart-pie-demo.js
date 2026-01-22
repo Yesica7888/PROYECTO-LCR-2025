@@ -5,13 +5,16 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 console.log("Mi script de graficos se está ejecutando");
 
 // Pie Chart Example
-var ctx = document.getElementById("graficoPrincipal");
+var ctx = document.getElementById("graficoDiagnosticos");
+var diagnosticosGraph= JSON.parse(ctx.dataset.diagnosticos);
+var totalGraph=JSON.parse(ctx.dataset.total);
+
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
-    labels: ["Blue", "Red", "Yellow", "Green"],
+    labels: diagnosticosGraph,
     datasets: [{
-      data: [12.21, 15.58, 11.25, 8.32],
+      data: totalGraph,
       backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
     }],
   },

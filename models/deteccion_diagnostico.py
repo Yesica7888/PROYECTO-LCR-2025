@@ -20,7 +20,7 @@ def insertDetdia(fk_id_deteccion,fk_id_diagnostico): #recibe la deteccion para a
         #retorna el id de la relacion entre deteccion y diagnostico agregada
          # recupero una fila del resultado de la columna
         id_det_dia= cursor.fetchone()[0] #fetch es una función,no olvidar los paréntesis
-        conn.commit()
+        conn.commit() # debe ir el commit si o si porque el un cambio en la BBDD , en operaciones como SELECT no se usa
         cursor.close() #cerrar el cursor  
         conn.close()
         return f"id deteccion diagnostico insertado: {id_det_dia}"
@@ -54,12 +54,11 @@ def getDetDiaResumen():
         # Alias de las columnas "AS" en la consulta   
         columns= [alias[0] for alias in cursor.description]
         registros= cursor.fetchall() # trae los registros de la consulta
-        conn.commit()
         cursor.close() #cerrar el cursor  
         conn.close()
         return columns, registros
     except Exception as e:
-        return f"Error al insertar: {e}"
+        return f"Error al consultar: {e}"
 
 #detecciones con riesgo bajo
     
@@ -82,12 +81,11 @@ def get_total_riesgo_bajo():
         cursor.execute(query)
         # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
         total_riesgo_bajo= cursor.fetchone()[0]
-        conn.commit()
         cursor.close() #cerrar el cursor  
         conn.close()
         return total_riesgo_bajo
     except Exception as e:
-        return f"Error al insertar: {e}"
+        return f"Error al consultar: {e}"
    
 #detecciones con riesgo moderado PENDIENTE 
     
@@ -110,12 +108,11 @@ def get_total_riesgo_moderado():
         cursor.execute(query)
         # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
         total_riesgo_moderado= cursor.fetchone()[0]
-        conn.commit()
         cursor.close() #cerrar el cursor  
         conn.close()
         return total_riesgo_moderado
     except Exception as e:
-        return f"Error al insertar: {e}"
+        return f"Error al consultar: {e}"
 
 
 #detecciones con riesgo alto PENDIENTE
@@ -139,10 +136,37 @@ def get_total_riesgo_alto():
         cursor.execute(query)
         # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
         total_riesgo_alto= cursor.fetchone()[0]
-        conn.commit()
         cursor.close() #cerrar el cursor  
         conn.close()
         return  total_riesgo_alto
     except Exception as e:
-        return f"Error al insertar: {e}"
+        return f"Error al consultar: {e}"
    
+def get_total_por_diagnostico():
+    conn = getConnection() # conexion a la base de datos 
+    if conn is None:
+        return "Error al conectar a la BBDD u_U "
+    try:
+        cursor= conn.cursor() #objeto que permite recorrer secuencialmente los resultados fila por fila de una consulta :)
+        
+        #consulta para obtener el total de cada diagnostico simulado
+        query = """
+                SELECT dia.diagnostico AS diagnostico, COUNT (detdia.fk_id_diagnostico) AS total
+                FROM diagnostico AS dia
+                INNER JOIN deteccion_diagnostico AS detdia
+                ON (dia.id_diagnostico= detdia.fk_id_diagnostico)
+                GROUP BY dia.diagnostico
+                ORDER BY total DESC
+
+                """
+        #ejecuta la sentencia
+        cursor.execute(query)
+        registros= cursor.fetchall() # trae todos registros de la consulta
+        return registros
+    except Exception as e:
+        return f"Error en la consulta funcion total por diagnostico: {e}"
+    finally: #en caso que haya excepciones o no se cierra la conexion y el cursor
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()

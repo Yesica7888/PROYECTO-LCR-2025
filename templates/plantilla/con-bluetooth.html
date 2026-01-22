@@ -4,13 +4,18 @@
 
 {% block content %}
 
-<h1> Modulo de conexión bluetooth  </h1>
-<p> Posteriormente este módulo se conectara con el de  PIC y el de movimiento, además de temperatura</p>
+<h1> Simulación módulo de conexión bluetooth  </h1>
+
 
 <div>
-<button type="button" class="btn btn-success btn-lg active">Conectar</button>
-<button type="button" class="btn btn-Dark btn-lg active">Desconectar</button>
+<button type="button" id="btnConectar" class="btn btn-success btn-lg active">Conectar</button>
+<button type="button" id="btnDesconectar" class="btn btn-Dark btn-lg active">Desconectar</button>
 </div>
 
+<p id="estado" class="mt-3 text-danger">Estado: Desconectado</p>
+
+<script src="{{url_for('static', filename='js/simulacion-bluetooth.js')}}"></script>
 
 {%endblock%}
+
+

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from models.deteccion import getTotalDeteccion  
-from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado #O_O
+from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado,get_total_por_diagnostico #O_O
 #para el reporte
 from reportlab.pdfgen import canvas
 from controllers.diagnostico_simulacion import NOMBRESCOLORES #para el forms
@@ -35,14 +35,22 @@ def detalle(tipo):
 
 
 
-#blueprint para otra pag
+#blueprint diagrama circular de los diagnosticos 
 @main.route('/graficos')
 def graficos():
-    return render_template('plantilla/charts.html')
+    registros=get_total_por_diagnostico()
+    diagnostico = []
+    total_diagnostico = []
+    
+    if registros:
+        diagnostico = [d[0] for d in registros]
+        total_diagnostico= [t[1] for t in registros]
+    return render_template('plantilla/charts.html', diagnosticos=diagnostico, total=total_diagnostico)
 
 #blueprint para otra pag, pendiente crear en controlador un archivo por bp 
 @main.route('/simulacion')
 def simular_img():
+   # estoy enviando los nombres de los colores como colores_formulario
    return render_template('plantilla/simulacion-img.html', colores_formulario=NOMBRESCOLORES)
 
 #detecciones tabla detallada
@@ -50,8 +58,8 @@ def simular_img():
 def detecciones():
     # Tabla de resumen  
     columns,registros= getDetDiaResumen()
-    print("Columns:", columns)
-    print("Registros:", type(registros), len(registros))
+    #print("Columns:", columns)
+    #print("Registros:", type(registros), len(registros))
     return render_template('plantilla/deteccion.html',titulos=columns,registros=registros,)
 
 
