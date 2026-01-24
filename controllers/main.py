@@ -41,10 +41,9 @@ def graficos():
     registros=get_total_por_diagnostico()
     diagnostico = []
     total_diagnostico = []
-    
     if registros:
-        diagnostico = [d[0] for d in registros]
-        total_diagnostico= [t[1] for t in registros]
+       diagnostico = [d[0] for d in registros]
+       total_diagnostico= [t[1] for t in registros]
     return render_template('plantilla/charts.html', diagnosticos=diagnostico, total=total_diagnostico)
 
 #blueprint para otra pag, pendiente crear en controlador un archivo por bp 
