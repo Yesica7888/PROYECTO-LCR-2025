@@ -1,4 +1,4 @@
-class Motor:
+"""class Motor:
     def __init__(self):
         self.estado = "DETENIDO"
         self.velocidad = 0
@@ -19,4 +19,4 @@ class Motor:
         return {
             "estado": self.estado,
             "velocidad": self.velocidad
-        }
+        }"""

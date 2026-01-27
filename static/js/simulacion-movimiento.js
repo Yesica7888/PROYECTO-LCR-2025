@@ -12,5 +12,6 @@ function mover(accion) {
   })
   .catch(function(error) {
     console.error("Error:", error);
+    alert("Error al mover el motor");
   });
 }

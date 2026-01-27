@@ -1,32 +1,29 @@
-"""
-import RPi.GPIO as GPIO
+import requests
+from config import HOST_RASP, PORT_RASP
 
 class Motor:
-
     def __init__(self):
-        self.IN1 = 17
-        self.IN2 = 18
-        self.EN  = 22
+        self.url_API = f"http://{HOST_RASP}:{PORT_RASP}"
 
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.IN1, GPIO.OUT)
-        GPIO.setup(self.IN2, GPIO.OUT)
-        GPIO.setup(self.EN, GPIO.OUT)
+    def adelante(self, vel=50):
+        return self.enviar("adelante", vel)
 
-        self.pwm = GPIO.PWM(self.EN, 1000)
-        self.pwm.start(0)
-
-    def adelante(self, velocidad=60):
-        GPIO.output(self.IN1, GPIO.HIGH)
-        GPIO.output(self.IN2, GPIO.LOW)
-        self.pwm.ChangeDutyCycle(velocidad)
-
-    def atras(self, velocidad=60):
-        GPIO.output(self.IN1, GPIO.LOW)
-        GPIO.output(self.IN2, GPIO.HIGH)
-        self.pwm.ChangeDutyCycle(velocidad)
+    def atras(self, vel=50):
+        return self.enviar("atras", vel)
 
     def detener(self):
-        self.pwm.ChangeDutyCycle(0)
-        
-"""
+        return self.enviar("detener", 0)
+
+    def obtener_estado(self):
+        r = requests.get(f"{self.url_API}/estado")
+        return r.json()
+
+    def enviar(self,accion, velocidad):
+        #diccionario
+        datos_motor = {
+            "accion": accion,
+            "velocidad": velocidad
+        }
+        #envio peticion HTTP tipo POST al microservicio 
+        respuesta_server = requests.post(f"{self.url_API}/motor", json=datos_motor)
+        return respuesta_server.json()
