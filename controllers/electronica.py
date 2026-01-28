@@ -14,7 +14,7 @@ electronica_bp = Blueprint('electronica',__name__)
 #llamo a la clase motor del modelo 
 motor = Motor()
 
-@electronica_bp.route("/movimiento/<accion>", methods=["POST"])
+@electronica_bp.route('/movimiento/<accion>', methods=["POST"])
 def mov_motores(accion):
  try:
      if accion == "adelante":
@@ -31,7 +31,15 @@ def mov_motores(accion):
      return jsonify({"error controlador": str(e)}), 500
 #--------------------------------------------------
 
-#presion intracraneal
+#movimiento acceso a la plantilla
+@electronica_bp.route('/movimiento')
+def mov_motores_vista():
+   # Renderiza la plantilla con los botones
+   return render_template('plantilla/movimiento-bot.html') 
+
+
+
+#---------presion intracraneal---------
 @electronica_bp.route('/PIC')
 def presion():
     return render_template('plantilla/presion-intracraneal.html')
