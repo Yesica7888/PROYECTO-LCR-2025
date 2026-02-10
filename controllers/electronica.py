@@ -1,13 +1,8 @@
 from flask import Blueprint, render_template, jsonify
-#from models.motor import Motor   [motor simulado]
 from models.motor_real import Motor
 
 #nombre del bp con que se va a crear la ruta y "electronica" se llama en la vista 
 electronica_bp = Blueprint('electronica',__name__)
-
-#-------------Movimiento simulado-------------------
-
-
 
 #--------Movimiento real----------------------
 
@@ -36,7 +31,6 @@ def mov_motores(accion):
 def mov_motores_vista():
    # Renderiza la plantilla con los botones
    return render_template('plantilla/movimiento-bot.html') 
-
 
 
 #---------presion intracraneal---------

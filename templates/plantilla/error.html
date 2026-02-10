@@ -1,0 +1,22 @@
+
+
+{%block title%} Ups, algo salio mal {%endblock%}
+
+
+
+    <a href="{{ url_for('main.index') }}">
+        <img src="{{ url_for('static', filename='assets/img/error.svg') }}" alt="Error">
+    </a>
+
+    {% if error %}
+        <p> {{ error }} ERROR</p>
+    {% endif %}
+
+
+
+
+
+{% block content %}
+
+{%endblock%}
+
