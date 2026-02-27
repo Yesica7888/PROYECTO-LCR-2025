@@ -1,9 +1,10 @@
-from flask import Blueprint, jsonify,render_template, redirect,url_for
+from flask import Blueprint,render_template, request, redirect, url_for, session
 from PIL import Image, ImageDraw, ImageFilter
 from datetime import datetime 
 from models.deteccion import insertDeteccion  #funcion insertar deteccion de modelo
 from models.imagen import insertImagen # insertar imagen de acuerdo a la deteccion 
 from controllers.diagnostico_simulacion import analisisDeteccion 
+from controllers.diagnostico_simulacion import NOMBRESCOLORES #para el forms
 import os
 import math
 import random
@@ -11,16 +12,59 @@ import random
 image_bp = Blueprint('image', __name__)
 
 
-def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True ):
-    """
-    Genera una imagen simulada de líquido con parámetros:
-    - color: color base en HEX (ej: "#FFFFFF")
-    - flujo: True/False para simular movimiento
-    - particulas: True/False para agregar partículas
-    - claridez: True/False (True = más clara, False = más turbia)
+#--- GET formulario (vacio)---
+@image_bp.route('/simulacion')
+def simular_img():
+    
+    resultado = session.pop('resultado_simulacion', None)  # cuando entra aca o f5 no duplica la deteccion
+    image= session.pop('image_path', None)
+    
+   # estoy enviando los nombres de los colores como colores_formulario
+    return render_template('plantilla/simulacion-img.html', colores_formulario=NOMBRESCOLORES, res_form=resultado, imagen_form=image) 
 
-    -color-particulas-claridad-flujo
-    """
+#--- POST al hacer clic en simular --- 
+@image_bp.route('/deteccionimg', methods=['POST'])
+def generate_image():
+    try:
+        #parametros del formulario          
+        color=request.form.get('color')
+        particulas=request.form.get('particulas')== "true"
+        claridad=request.form.get('claridad') == "true"
+        flujo=request.form.get('flujo') == "true"
+
+        #generación de imagen y retorno de ruta
+        image_path = generateImg(color,particulas,claridad,flujo) 
+
+        #simular la deteccion y guardar en BBDD
+        fecha=datetime.now().date()
+        hora=datetime.now().time()
+        id_deteccion= insertDeteccion(fecha,color,particulas,claridad,flujo,hora)
+
+         #insertar la Imagen a la BBDD recibe como parametro : ruta_imagen,fk_id_deteccion
+   
+        id_imagen= insertImagen(image_path,id_deteccion)
+        
+         #Realizando el diagnostico 
+        id_diag_det,diagnostico = analisisDeteccion(id_deteccion) #le envio el id de la deteccion y devuelve el id de la asociacion del diagnostico con la deteccion 
+        
+        # Variable de sesion de imagen independiente
+        session['image_path'] = image_path
+        #---Guardando el resto de variables en el diccionario----
+        session['resultado_simulacion'] = {
+           "deteccion":id_deteccion,
+           "imagenbbdd":id_imagen,
+           "deteccion_diagnostico":id_diag_det,
+           "diagnostico":diagnostico[1]            
+        }
+        
+         #---Redirect, asi no se reenvia el POST. nombre del bp + nombre de funcion
+        return redirect(url_for('image.simular_img'))
+     
+    except Exception as e:
+        return render_template("plantilla/error.html", error=str(e)), 500
+    
+def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True ):
+    
     width, height = 640, 480 #dimensiones de la imagen
     image = Image.new('RGB', (width, height), color_hex) # Image metodo de libreria pillow, modo color, dimensiones, color fondo
     draw = ImageDraw.Draw(image) #dibujando imagen metodo ImageDraw de pillow 
@@ -82,45 +126,11 @@ def generateImg(color_hex="#FFFFFF",particulas=False, claridad=True, flujo=True 
 
     image_path_web = image_path.replace("\\", "/").replace("static/", "")
 
-    #Envio de parametros para realizar la deteccion , tuve que realizar un cast a flujo porque al 
-    #generar el flujo queda cmo una variable entera
-    parametros_lcr = {"color_hex":color_hex,"particulas":particulas,"claridad":claridad,"flujo":flujo}
-
-    #envio la ruta de la imagen y los parametros en un diccionario :) para 
-    # simular la deteccion, que esta me retorne el id ingresado 
-    # y ese id de la deteccion acabado de realizar se envie como parámetro para guardar en la BBDD la imagen 
     print(" Ruta completa guardada en disco:", image_path)
     print(" Ruta normalizada para web (guardada en BBDD):", image_path_web)
-    return image_path_web,parametros_lcr
-
-
-# Parametros de imagen en deteccion, guardando en BBDD una nueva deteccion 
-
-@image_bp.route('/deteccionimg')
-def generate_image():
- #generar imagen con parametros
- image_path,parametros_lcr = generateImg("#FFFFFF",False,True,True)  
-
- #simular la deteccion y guardar en BBDD
- fecha=datetime.now().date()
- hora=datetime.now().time()
- id_deteccion=insertDeteccion(fecha,parametros_lcr["color_hex"],parametros_lcr["particulas"],
-                              parametros_lcr["claridad"],parametros_lcr["flujo"],hora)
-#insertando Imagen a la BBDD, recibe como parametro : ruta_imagen,fk_id_deteccion
- id_imagen= insertImagen(image_path,id_deteccion)
-#Realizando el diagnostico 
- id_diag_det,diagnostico = analisisDeteccion(id_deteccion) #le envio el id de la deteccion y devuelve el id de la asociacion del diagnostico con la deteccion 
-
-#Ahora falta hacer consulta SQL para no solo mostrar el id sino para mostrar el diagnostico generado
-
- return render_template("plantilla/index.html", image_path=image_path,
-                         parametros_lcr=parametros_lcr, deteccion=id_deteccion,
-                         imagenbbdd=id_imagen, detecciondiagnostico=id_diag_det, diagnostico=diagnostico[1:]) 
-#deteccion es el nombre de la variable que deseo y con ese nombre voy a llamarlo en el index
-#si hago esto ( el return comentado)mezclaria responsabilidades de MVC 
-#redirecciono ...
-#ya no redirecciono porque es un proceso interno que hace al realizar la deteccion 
-# return redirect(url_for("diagnostico_bp.analizarDeteccion", id_deteccion=id_deteccion))
+    return image_path_web
 
 
 
+    
+   

@@ -24,6 +24,6 @@ def insertImagen (ruta_imagen,fk_id_deteccion):
         cursor.close() #cerrar el cursor  
         conn.close()
         #return id_imagen puede ser así o:
-        return f"id imagen insertada: {id_imagen}"
+        return id_imagen
     except Exception as e:
         return f"Error al insertar: {e}"

@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template
-from models.deteccion import getTotalDeteccion  
+from models.deteccion import getTotalDeteccion,get_total_sindiagnostico  
 from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado,get_total_por_diagnostico #O_O
-#para el reporte
-from reportlab.pdfgen import canvas
-from controllers.diagnostico_simulacion import NOMBRESCOLORES #para el forms
+from reportlab.pdfgen import canvas #reporte PDF
 import os
 
 main= Blueprint('main', __name__ )
+
+
+#-----------Pagina principal---------------
 
 @main.route('/principal')   
 def index(): #con este nombre se llama en el index.html
@@ -15,9 +16,10 @@ def index(): #con este nombre se llama en el index.html
     riesgo_bajo= get_total_riesgo_bajo()
     riesgo_moderado = get_total_riesgo_moderado()
     riesgo_alto = get_total_riesgo_alto()
+    sin_diagnostico= get_total_sindiagnostico()
 
     return render_template ("plantilla/index.html", resultado=totalDetecciones, 
-                            r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto) #de la carpeta templates accede al index
+                            r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto,r4=sin_diagnostico) #de la carpeta templates accede al index
 
 
 @main.route('/detalle/<tipo>')
@@ -30,12 +32,13 @@ def detalle(tipo):
         return f"Riesgo moderado: {get_total_riesgo_moderado()}"
     if tipo == "4":
         return f"Riesgo alto: {get_total_riesgo_alto()}"
+    if tipo == "5":
+        return f"Sin deteccion: {get_total_sindiagnostico()} " 
     
-    return "Detalle no encontrado."
+    return "Detalle de las detecciones no encontrado", 400
 
 
-
-#blueprint diagrama circular de los diagnosticos 
+#----------blueprint diagrama circular de los diagnosticos--------
 @main.route('/graficos')
 def graficos():
     registros=get_total_por_diagnostico()
@@ -46,13 +49,7 @@ def graficos():
        total_diagnostico= [t[1] for t in registros]
     return render_template('plantilla/charts.html', diagnosticos=diagnostico, total=total_diagnostico)
 
-#blueprint para otra pag, pendiente crear en controlador un archivo por bp 
-@main.route('/simulacion')
-def simular_img():
-   # estoy enviando los nombres de los colores como colores_formulario
-   return render_template('plantilla/simulacion-img.html', colores_formulario=NOMBRESCOLORES)
-
-#detecciones tabla detallada
+#-----------Detecciones tabla detallada-------------
 @main.route('/detecciones')
 def detecciones():
     # Tabla de resumen  
@@ -61,6 +58,7 @@ def detecciones():
     #print("Registros:", type(registros), len(registros))
     return render_template('plantilla/deteccion.html',titulos=columns,registros=registros,)
 
+#-----------reporte PDF-----------
 
 @main.route('/reportepdf')
 def reporte():

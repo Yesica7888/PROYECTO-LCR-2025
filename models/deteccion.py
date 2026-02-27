@@ -53,4 +53,34 @@ def getTotalDeteccion():
     registro = cursor.fetchone()[0] #la función devuelve una tupla con un único valor y necesito unicamente el número por eso accedo al "primer elemento"
     cursor.close()
     conn.close()
-    return registro    
+    return registro 
+
+def get_total_sindiagnostico():
+    conn = getConnection() # conexion a la base de datos 
+    if conn is None:
+        return "Error al conectar a la BBDD u_U "
+    try:
+        cursor= conn.cursor() #objeto que permite recorrer secuencialmente los resultados fila por fila de una consulta :)
+        
+        #consulta para obtener total de los resultados que no pudieron ser catalogados en ningun diagnostico
+        query = """
+                SELECT COUNT(det.id_deteccion) AS total
+                FROM deteccion det
+                LEFT JOIN deteccion_diagnostico detdia
+                ON det.id_deteccion = detdia.fk_id_deteccion
+                WHERE detdia.fk_id_deteccion IS NULL
+                
+                """
+        
+         #ejecuta la sentencia SQL  
+        cursor.execute(query)
+        # consulta se retorna como una tupla de  valor, por eso se debe recibir :[0]       
+        total_sin_diagnostico= cursor.fetchone()[0]
+        return int(total_sin_diagnostico)
+    except Exception as e:
+        return f"Error al consultar registros sin diagnostico: {e}"
+    finally: #en caso que haya excepciones o no se cierra la conexion y el cursor
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()   

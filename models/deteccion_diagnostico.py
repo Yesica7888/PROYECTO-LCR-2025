@@ -23,7 +23,7 @@ def insertDetdia(fk_id_deteccion,fk_id_diagnostico): #recibe la deteccion para a
         conn.commit() # debe ir el commit si o si porque el un cambio en la BBDD , en operaciones como SELECT no se usa
         cursor.close() #cerrar el cursor  
         conn.close()
-        return f"id deteccion diagnostico insertado: {id_det_dia}"
+        return id_det_dia
     except Exception as e:
         return f"Error al insertar: {e}"
     
@@ -170,3 +170,7 @@ def get_total_por_diagnostico():
             cursor.close()
         if conn:
             conn.close()
+            
+
+    
+ 

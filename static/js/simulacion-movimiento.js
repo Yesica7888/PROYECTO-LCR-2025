@@ -6,6 +6,7 @@ function mover(accion) {
   .then(function(response) {
     return response.json();
   })
+  //parrafo donde se muestra el estado en movimiento-bot.html
   .then(function(data) {
     document.getElementById("estadoMotor").innerText =
       'Estado: ' + data.estado + ' | Velocidad: ' + data.velocidad;

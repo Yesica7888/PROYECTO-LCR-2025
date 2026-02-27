@@ -5,61 +5,77 @@
 {%block content%}
 
 <div class="container-fluid mt-4 px-3">
-<div class="row g-3">
-    <div class="col-xl-3 col-md-6">
-        <div class="card bg-primary text-white mb-4">
-            <div class="card-header">Total detecciones </div>
-            <div class="card-body"> # {{resultado}}</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
-                    aria-expanded="false" aria-controls="collapse-det" data-detalle="1">
-                    Ver detalles
-                </a>
-                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+    <div class="row g-3">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-header">Total detecciones </div>
+                <div class="card-body"> # {{resultado}}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det"
+                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="1">
+                        Ver detalles
+                    </a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-xl-3 col-md-6">
-        <div class="card bg-success text-white mb-4">
-            <div class="card-header">Detecciones riesgo bajo</div>
-            <div class="card-body"># {{r1}}</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
-                    aria-expanded="false" aria-controls="collapse-det" data-detalle="2">
-                    Ver detalles
-                </a>
-                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-header">Detecciones riesgo bajo</div>
+                <div class="card-body"># {{r1}}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det"
+                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="2">
+                        Ver detalles
+                    </a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card bg-warning text-white mb-4">
-            <div class="card-header">Detecciones riesgo moderado</div>
-            <div class="card-body"># {{r2}}</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
-                    aria-expanded="false" aria-controls="collapse-det" data-detalle="3">
-                    Ver detalles
-                </a>
-                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-header">Detecciones riesgo moderado</div>
+                <div class="card-body"># {{r2}}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det"
+                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="3">
+                        Ver detalles
+                    </a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card bg-danger text-white mb-4">
-            <div class="card-header">Detecciones riesgo Alto</div>
-            <div class="card-body"># {{r3}}</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-<a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det" role="button"
-                    aria-expanded="false" aria-controls="collapse-det" data-detalle="4">
-                    Ver detalles 4
-                </a>
-                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-header">Detecciones riesgo Alto</div>
+                <div class="card-body"># {{r3}}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det"
+                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="4">
+                        Ver detalles 4
+                    </a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
             </div>
         </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-secondary text-white mb-4">
+                <div class="card-header">Detecciones sin diagnostico</div>
+                <div class="card-body"># {{r4}}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" data-bs-toggle="collapse" href="#collapse-det"
+                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="5">
+                        Ver detalles 5
+                    </a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
-</div>
 </div>
 
 <div>
@@ -76,12 +92,9 @@
 
 </div>
 
-
-
-
 {%endblock%}
 
 {%block scripts %}
 
- <script src="{{ url_for('static', filename='js/detalle-riesgo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/detalle-riesgo.js') }}"></script>
 {%endblock%}

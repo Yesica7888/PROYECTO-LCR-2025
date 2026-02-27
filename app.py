@@ -11,6 +11,9 @@ app.register_blueprint(image_bp)
 
 #app.register_blueprint(reporte_bp)
 
+#clave para la sesion, mostrar resultados temporales  
+app.secret_key = "dev-010011000100001101010010"
+
 if __name__ == "__main__":
   app.run (debug=True, port=5000) 
 

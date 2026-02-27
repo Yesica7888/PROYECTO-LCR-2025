@@ -16,7 +16,7 @@
                                 <h3 class="text-center font-weight-light my-4">Simular imagen </h3>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form action="{{ url_for('image.generate_image') }}" method="POST">
                                     <div class="row justify-content-center">
                                         <div class="col-12 col-md-6">
 
@@ -67,14 +67,32 @@
                                         </div>
                                     </div>
                                 </form>
+
+                                <div>
+
+                                </div>
+
                             </div>
+                            {%if res_form and imagen_form %}
+                            <div class="container">
+                                <h2>Imagen Generada</h2>
+                                <img src="{{ url_for('static', filename=imagen_form) }}" class="img-fluid border border-3 border-secondary rounded shadow"
+                                    alt="Imagen LCR">
+                                <p><strong>ID Detección:</strong> {{ res_form.deteccion }}</p>
+                                <p><strong>ID Imagen en BD:</strong> {{ res_form.imagenbbdd }}</p>
+                                <p><strong>ID Diagnóstico Asociado:</strong> {{ res_form.deteccion_diagnostico }}</p>
+                                <p><strong>Diagnóstico:</strong> {{ res_form.diagnostico }}</p>
+                            </div>
+                            {%else%}
+                            <p>Imagen sin simular</p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-
 </div>
 
 

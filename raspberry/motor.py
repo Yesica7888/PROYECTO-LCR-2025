@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+'''from flask import Flask, request, jsonify
 import time
 import RPi.GPIO as GPIO
 
@@ -73,4 +73,4 @@ if __name__ == "__main__":
         app.run(host="0.0.0.0", port=5000)
     finally:
         motor_stop()
-        GPIO.cleanup()
+        GPIO.cleanup()'''
