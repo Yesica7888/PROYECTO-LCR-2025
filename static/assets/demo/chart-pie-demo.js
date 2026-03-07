@@ -12,10 +12,15 @@ var totalGraph=JSON.parse(ctx.dataset.total);
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
+
     labels: diagnosticosGraph,
     datasets: [{
       data: totalGraph,
-      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+      backgroundColor: ['#007bff', '#dc3545',
+         '#ffc107', '#28a745', '#59219e',
+        '#9e218f','#9e2155','#c4ff2e',
+      '#21969e','#219e40','#9e5d21'],
     }],
+    
   },
 });
