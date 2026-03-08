@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from models.deteccion import getTotalDeteccion,get_total_sindiagnostico  
-from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado,get_total_por_diagnostico #O_O
+from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado,get_total_por_diagnostico
+import models.deteccion_diagnostico as dd #para no escribir todas las funciones del modelo
 from reportlab.pdfgen import canvas #reporte PDF
 import os
 
@@ -17,25 +18,77 @@ def index(): #con este nombre se llama en el index.html
     riesgo_moderado = get_total_riesgo_moderado()
     riesgo_alto = get_total_riesgo_alto()
     sin_diagnostico= get_total_sindiagnostico()
-
+    
+    #Variables para diagrama de barras en detalle de los card
+  
     return render_template ("plantilla/index.html", resultado=totalDetecciones, 
                             r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto,r4=sin_diagnostico) #de la carpeta templates accede al index
 
 
+#----Función para detalle de los card , resumen de la información requerida 
 @main.route('/detalle/<tipo>')
 def detalle(tipo):
     if tipo == "1":
-        return f"Total de detecciones: {getTotalDeteccion()}"
+        registros=get_total_por_diagnostico()
+        diagnostico = []
+        total= []
+        if registros:
+            diagnostico=[d[0] for d in registros]
+            total=[t[1] for t in registros]
+        return jsonify({
+        "mensaje": f"Total de detecciones ruta detalle tipo: {getTotalDeteccion()}",
+        "diagnosticos": diagnostico,
+        "total": total
+    })
+         
     if tipo == "2":
-        return f"Riesgo bajo: {get_total_riesgo_bajo()}"
+        registros=dd.get_diagnosticos_riesgo_bajo()
+        diagnostico = []
+        total= []
+        if registros:
+            diagnostico=[d[0] for d in registros]
+            total=[t[1] for t in registros]       
+        return jsonify({
+            "mensaje" : f"Riesgo bajo: {get_total_riesgo_bajo()}" ,
+            "diagnosticos": diagnostico,
+            "total": total
+            })
     if tipo == "3":
-        return f"Riesgo moderado: {get_total_riesgo_moderado()}"
+        registros=dd.get_diagnosticos_riesgo_moderado()
+        diagnostico = []
+        total= []
+        if registros:
+            diagnostico=[d[0] for d in registros]
+            total=[t[1] for t in registros]  
+        return jsonify({
+            "mensaje" : f"Riesgo moderado: {get_total_riesgo_moderado()}",
+            "diagnosticos": diagnostico,
+            "total": total
+            })
     if tipo == "4":
-        return f"Riesgo alto: {get_total_riesgo_alto()}"
+        registros=dd.get_diagnosticos_riesgo_alto()
+        diagnostico = []
+        total= []
+        return jsonify({
+            "mensaje": f"Riesgo alto: {get_total_riesgo_alto()}",
+            "diagnosticos": diagnostico,
+            "total": total  
+            })
     if tipo == "5":
-        return f"Sin deteccion: {get_total_sindiagnostico()} " 
+        registros=dd.get_sin_diagnostico()
+        diagnostico = []
+        total= []
+        return jsonify({
+            "mensaje": f"Sin detección: {get_total_sindiagnostico()}",
+            "diagnosticos": diagnostico,
+            "total": total 
+        })
     
-    return "Detalle de las detecciones no encontrado", 400
+    return jsonify({"error": "Detalle no encontrado"}), 400
+
+
+
+
 
 
 #----------blueprint diagrama circular de los diagnosticos--------

@@ -10,7 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 const response = await fetch(`/detalle/${tipo}`);
-                const html = await response.text();
+                const data = await response.json();
+
+                //ver si esta llegando la informacion
+                console.log(data);
+
 
                 // Si el collapse está abierto:
                 if (collapseLog.classList.contains("show")) {
@@ -29,11 +33,73 @@ document.addEventListener("DOMContentLoaded", () => {
                     await waitForHidden; // esperamos el cierre completo
                 }
 
+                let html = `<h5>${data.mensaje}</h5>`;
+
+                if (data.diagnosticos) {
+
+                   html += `<canvas id="graficoDashboard"></canvas>`;
+                }
+
                 // Actualizar contenido y abrir
+
                 contenedor.innerHTML = html;
                 collapse.show();
 
-            } catch (error) {
+                // "diagnosticos" nombre del return en formato JSON del controlador (ruta /detalle(tipo))
+                if(data.diagnosticos){
+
+                    const ctx = document.getElementById("graficoDashboard");
+
+                    // destruir gráfico si existe
+                    if (chart) {
+                        chart.destroy();
+                    }
+
+                    // Creacion del grafico de barras 
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.diagnosticos,
+                            datasets: [{
+                                data: data.total,
+                                backgroundColor: "rgba(2,117,216,1)",
+                                borderColor: "rgba(2,117,216,1)",
+
+                            }],
+
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    time: {
+                                        unit: 'diagnosticos'
+                                    },
+                                    gridLines: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 11
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        maxTicksLimit: 5
+                                    },
+                                    gridLines: {
+                                        display: true
+                                    }
+                                }],
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    });
+                }
+     
+                    
+            }catch (error) {
                 contenedor.innerHTML = "Error cargando el detalle.";
                 console.error(error);
             }

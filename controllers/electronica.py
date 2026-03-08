@@ -38,8 +38,13 @@ def mov_motores_vista():
 def presion():
     return render_template('plantilla/presion-intracraneal.html')
 
-#temperatura
+#----------temperatura-------------
 @electronica_bp.route('/temperatura')
 def temperatura():
     return render_template('plantilla/temperatura.html')
+ 
+ #----------Estructura-------------
+@electronica_bp.route('/estructura')
+def estructura():
+    return render_template('plantilla/estructura.html')
 
