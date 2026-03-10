@@ -87,8 +87,7 @@ def get_total_riesgo_bajo():
         return total_riesgo_bajo
     except Exception as e:
         return f"Error al consultar: {e}"
-   
-#detecciones con riesgo moderado PENDIENTE 
+
     
 def get_total_riesgo_moderado():
     conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
@@ -140,6 +139,8 @@ def get_total_riesgo_alto():
         return  total_riesgo_alto
     except Exception as e:
         return f"Error al consultar: {e}"
+
+#---para pie chart y diagrama de barras---
    
 def get_total_por_diagnostico():
     conn = getConnection() # conexion a la base de datos 
@@ -172,36 +173,8 @@ def get_total_por_diagnostico():
             
 #----Consultas para diagramas de barras en el dashboard-----      
 
-#---total detalles---
-def get_condiagnostico():
-    conn = getConnection() # variable que llama a la función que tiene las credenciales para acceder a la BBDD
-    if conn is None: # control de posibles errores
-        return "Error al conectar a la BBDD u_U"
-    try:
-        cursor= conn.cursor() #obj para ejecutar consultas SQL 
-       #En esta consulta traigo los parámetros de la deteccion para asociar a un diagnostico
-      
-        query = """
-            
-            SELECT d.diagnostico AS diagnostico , COUNT (dd.id_det_dia) AS total
-            FROM deteccion_diagnostico AS dd
-            INNER JOIN diagnostico AS d
-            ON dd.fk_id_diagnostico= d.id_diagnostico
-            GROUP BY d.diagnostico
-            ORDER BY total DESC
-                
-            """
-        #ejecuta la sentencia SQL  
-        cursor.execute(query)
-        registros= cursor.fetchall() # trae todos registros de la consulta
-        return registros
-    except Exception as e:
-        return f"Error en la consulta funcion total por diagnostico: {e}"
-    finally: #en caso que haya excepciones o no se cierra la conexion y el cursor
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()          
+#---total detalles -> def get_total_por_diagnostico()---
+  
             
 #---riesgo bajo detalles---            
 def get_diagnosticos_riesgo_bajo():

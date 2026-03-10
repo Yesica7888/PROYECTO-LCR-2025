@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    let chart = null
     const contenedor = document.getElementById("det-dinamico");
     const collapseLog = document.getElementById("collapse-det");
     const collapse = new bootstrap.Collapse(collapseLog, { toggle: false });
@@ -15,38 +17,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 //ver si esta llegando la informacion
                 console.log(data);
 
-
-                // Si el collapse está abierto:
-                if (collapseLog.classList.contains("show")) {
-                    // Cerrar primero
-                    collapse.hide();
-
-                    // Esperar a que termine de cerrarse antes de continuar
-                    const waitForHidden = new Promise(resolve => {
-                        collapseLog.addEventListener(
-                            "hidden.bs.collapse",
-                            () => resolve(),
-                            { once: true } // se ejecuta una sola vez
-                        );
-                    });
-
-                    await waitForHidden; // esperamos el cierre completo
-                }
-
                 let html = `<h5>${data.mensaje}</h5>`;
 
                 if (data.diagnosticos) {
 
-                   html += `<canvas id="graficoDashboard"></canvas>`;
+                    html += `<canvas id="graficoDashboard"></canvas>`;
                 }
 
                 // Actualizar contenido y abrir
 
                 contenedor.innerHTML = html;
-                collapse.show();
 
+                collapse.show();
+                
                 // "diagnosticos" nombre del return en formato JSON del controlador (ruta /detalle(tipo))
-                if(data.diagnosticos){
+                if (data.diagnosticos) {
 
                     const ctx = document.getElementById("graficoDashboard");
 
@@ -56,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     // Creacion del grafico de barras 
-                    var chart = new Chart(ctx, {
+                    chart = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: data.diagnosticos,
@@ -64,13 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
                                 data: data.total,
                                 backgroundColor: "rgba(2,117,216,1)",
                                 borderColor: "rgba(2,117,216,1)",
+                                barThickness: 13,
+                                maxBarThickness: 20
 
                             }],
 
                         },
                         options: {
+                            responsive: true,
                             scales: {
-                                xAxes: [{
+                                x: [{
                                     time: {
                                         unit: 'diagnosticos'
                                     },
@@ -81,10 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                         maxTicksLimit: 11
                                     }
                                 }],
-                                yAxes: [{
+                                y: [{
                                     ticks: {
                                         min: 0,
-                                        maxTicksLimit: 5
+                                        maxTicksLimit: 10
                                     },
                                     gridLines: {
                                         display: true
@@ -97,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
                 }
-     
-                    
-            }catch (error) {
+
+
+            } catch (error) {
                 contenedor.innerHTML = "Error cargando el detalle.";
                 console.error(error);
             }

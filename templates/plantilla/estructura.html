@@ -1,0 +1,29 @@
+{%extends "plantilla/base.html"%}
+
+{%block title%}Estructura del prototipo{%endblock%}
+
+{% block content %}
+
+<!--<h1> Estructura del prototipo , imagenes 2D, prototipo 3D, Componentes electrónicos , Esquema comunicación inálambrica para transmisión de datos  </h1>-->
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm mt-4">
+      
+        <img src="{{ url_for('static', filename='mockups/protobotlsc.png') }}" class="img-fluid border border-3 border-secondary rounded shadow"
+                                        alt="prototipo">
+    </div>
+    <div class="col-sm mt-4">
+
+      <img src="{{ url_for('static', filename='mockups/protobotlscacotado.png') }}" class="img-fluid border border-3 border-secondary rounded shadow"
+                                        alt="prototipo">
+    </div>
+    <div class="col-sm mt-4">
+
+      <img src="{{ url_for('static', filename='mockups/protobotlscfront.png') }}" class="img-fluid border border-3 border-secondary rounded shadow"
+                                        alt="prototipo">
+    </div>
+  </div>
+</div>
+
+{%endblock%}

@@ -69,6 +69,9 @@ def detalle(tipo):
         registros=dd.get_diagnosticos_riesgo_alto()
         diagnostico = []
         total= []
+        if registros:
+            diagnostico=[d[0] for d in registros]
+            total=[t[1] for t in registros]  
         return jsonify({
             "mensaje": f"Riesgo alto: {get_total_riesgo_alto()}",
             "diagnosticos": diagnostico,
@@ -78,6 +81,9 @@ def detalle(tipo):
         registros=dd.get_sin_diagnostico()
         diagnostico = []
         total= []
+        if registros:
+            diagnostico=[d[0] for d in registros]
+            total=[t[1] for t in registros]  
         return jsonify({
             "mensaje": f"Sin detección: {get_total_sindiagnostico()}",
             "diagnosticos": diagnostico,

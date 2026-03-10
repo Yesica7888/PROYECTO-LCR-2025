@@ -2,7 +2,59 @@
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
-// Bar Chart Example
+console.log("Script diagrama de barras");
+
+//variable para crear el grafico dinamico 
+var ctx = document.getElementById("graficoDashboard");
+//variables recibidas de la ruta en el controlador
+var diagnosticos = JSON.parse (ctx.dataset.diagnosticos);
+var total=JSON.parse(ctx.dataset.total);
+
+var myLineChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: diagnosticos,
+    datasets:[{
+    data:total,  
+    backgroundColor: "rgba(2,117,216,1)",
+    borderColor: "rgba(2,117,216,1)",
+
+    }],
+   
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'diagnosticos'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 11
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          maxTicksLimit: 50
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+
+
+
+/* Bar Chart Example
 var ctx = document.getElementById("myBarChart");
 var myLineChart = new Chart(ctx, {
   type: 'bar',
@@ -44,3 +96,4 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+*/
