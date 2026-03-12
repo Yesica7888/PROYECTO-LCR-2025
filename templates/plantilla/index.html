@@ -11,8 +11,8 @@
                 <div class="card-header">Total detecciones </div>
                 <div class="card-body"> # {{resultado}}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link"  href="#collapse-det"
-                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="1">
+                    <a class="small text-white stretched-link" href="#collapse-det" role="button" aria-expanded="false"
+                        aria-controls="collapse-det" data-detalle="1">
                         Ver detalles
                     </a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -25,8 +25,8 @@
                 <div class="card-header">Detecciones riesgo bajo</div>
                 <div class="card-body"># {{r1}}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link"  href="#collapse-det"
-                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="2">
+                    <a class="small text-white stretched-link" href="#collapse-det" role="button" aria-expanded="false"
+                        aria-controls="collapse-det" data-detalle="2">
                         Ver detalles
                     </a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -38,8 +38,8 @@
                 <div class="card-header">Detecciones riesgo moderado</div>
                 <div class="card-body"># {{r2}}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link"  href="#collapse-det"
-                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="3">
+                    <a class="small text-white stretched-link" href="#collapse-det" role="button" aria-expanded="false"
+                        aria-controls="collapse-det" data-detalle="3">
                         Ver detalles
                     </a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -51,8 +51,8 @@
                 <div class="card-header">Detecciones riesgo Alto</div>
                 <div class="card-body"># {{r3}}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link"  href="#collapse-det"
-                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="4">
+                    <a class="small text-white stretched-link" href="#collapse-det" role="button" aria-expanded="false"
+                        aria-controls="collapse-det" data-detalle="4">
                         Ver detalles 4
                     </a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -64,8 +64,8 @@
                 <div class="card-header">Detecciones sin diagnostico</div>
                 <div class="card-body"># {{r4}}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link"  href="#collapse-det"
-                        role="button" aria-expanded="false" aria-controls="collapse-det" data-detalle="5">
+                    <a class="small text-white stretched-link" href="#collapse-det" role="button" aria-expanded="false"
+                        aria-controls="collapse-det" data-detalle="5">
                         Ver detalles 5
                     </a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -78,20 +78,29 @@
     </div>
 </div>
 
+<div class="card border-info mb-3"  >
+  <div class="card-header">Conclusiones</div>
+  <div class="card-body text-info">
+    <h5 class="card-title"> Resultados</h5>
+    <p class="card-text">
+       Se han simulado <strong>{{resultado}}</strong> detecciones, de estas:
+        <br>• <strong>{{r1}}</strong> corresponden a un riesgo bajo, lo cual no representa una urgencia inmediata.Esto representa un <strong>({{p_bajo}}%)</strong> del total de las detecciones.
+        <br>• <strong>{{r2}}</strong> corresponden a un riesgo moderado, existe una alteración por lo tanto requiere supervisión médica. Esto representa un <strong>({{p_moderado}}%)</strong> del total de las detecciones.
+        <br>• <strong>{{r3}}</strong> corresponden a un riesgo alto, indicando una situación potencialmente grave, requiere intervención médica urgente. Esto representa el <strong>({{p_alto}}%)</strong>   del total de las detecciones.
+       
+        <br>También, del total de las detecciones, el <strong> ({{p_sin}}%)</strong> se encuentra sin diagnostico, lo que indica que sus caracteristicas como flujo,color, particulas o claridad no se encuentra relacionado con ninguno de las complicaciones
+        que se pueden presentar en un paciente con hidrocefalia. Estos casos pueden tener variaciones intermedias a los parámetros del sistema y requieren una
+        evaluación médica más detallada.
+    </p>
+  </div>
 <div>
-
-    <p> CONTENEDOR PARA RESUMEN DE INFORMACIÓN </p>
-
     <div class="collapse" id="collapse-det">
         <div class="card card-body" id="det-dinamico">
-            Aquí puedes colocar el contenido que se mostrará al hacer clic en "Ver detalles".
-
            
+
         </div>
     </div>
-
-
-
+</div>
 </div>
 
 {%endblock%}

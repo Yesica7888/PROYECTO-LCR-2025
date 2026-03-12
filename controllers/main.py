@@ -2,8 +2,7 @@ from flask import Blueprint, render_template, jsonify
 from models.deteccion import getTotalDeteccion,get_total_sindiagnostico  
 from models.deteccion_diagnostico import getDetDiaResumen,get_total_riesgo_bajo,get_total_riesgo_alto,get_total_riesgo_moderado,get_total_por_diagnostico
 import models.deteccion_diagnostico as dd #para no escribir todas las funciones del modelo
-from reportlab.pdfgen import canvas #reporte PDF
-import os
+
 
 main= Blueprint('main', __name__ )
 
@@ -19,10 +18,17 @@ def index(): #con este nombre se llama en el index.html
     riesgo_alto = get_total_riesgo_alto()
     sin_diagnostico= get_total_sindiagnostico()
     
+    if totalDetecciones > 0:
+        p1=round((riesgo_bajo/totalDetecciones)*100,2)
+        p2=round((riesgo_moderado/totalDetecciones)*100,2)
+        p3=round((riesgo_alto/totalDetecciones)*100,2)
+        p4=round((sin_diagnostico/totalDetecciones)*100,2)
+            
     #Variables para diagrama de barras en detalle de los card
   
     return render_template ("plantilla/index.html", resultado=totalDetecciones, 
-                            r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto,r4=sin_diagnostico) #de la carpeta templates accede al index
+                            r1=riesgo_bajo,r2=riesgo_moderado,r3=riesgo_alto,r4=sin_diagnostico,
+                            p_bajo=p1,p_moderado=p2,p_alto=p3,p_sin=p4) #de la carpeta templates accede al index
 
 
 #----Función para detalle de los card , resumen de la información requerida 
@@ -92,11 +98,6 @@ def detalle(tipo):
     
     return jsonify({"error": "Detalle no encontrado"}), 400
 
-
-
-
-
-
 #----------blueprint diagrama circular de los diagnosticos--------
 @main.route('/graficos')
 def graficos():
@@ -115,27 +116,10 @@ def detecciones():
     columns,registros= getDetDiaResumen()
     #print("Columns:", columns)
     #print("Registros:", type(registros), len(registros))
-    return render_template('plantilla/deteccion.html',titulos=columns,registros=registros,)
+    return render_template('plantilla/deteccion.html',titulos=columns,registros=registros)
 
-#-----------reporte PDF-----------
 
-@main.route('/reportepdf')
-def reporte():
-    # Ruta del archivo PDF
-    nombre_archivo = "reporte.pdf"
-    path = os.path.join("static", "reportes", nombre_archivo)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-
-    # Crear PDF básico si no existe
-    if not os.path.exists(path):
-        c = canvas.Canvas(path)
-        c.drawString(100, 750, "PDF vacío de prueba")
-        c.save()
-
-    # Renderizar la plantilla HTML del visor
-    return render_template('plantilla/reporte-pdf.html', pdf_file=nombre_archivo)
- 
-
+    
    
 
  
